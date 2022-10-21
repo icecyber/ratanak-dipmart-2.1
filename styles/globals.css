@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* @media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    color: white;
+    background: black;
+  }
+} */
+/* Layout */
+.main-layout {
+  @apply max-w-5xl m-auto px-5 py-2;
+}
+/* MySwiper */
+.mySwiper {
+  @apply w-full mt-4;
+}
+.banner-img {
+  @apply w-full  rounded-lg;
+}
+
+/* Navbar */
+.navbar {
+  @apply grid grid-cols-2 bg-white px-5 py-2 shadow sticky top-0 z-20;
+}
+.navbar-items {
+  @apply flex justify-end items-center;
+}
+.navbar-item {
+  @apply ml-3 lg:w-10 lg:h-10;
+}
+.navbar-logo {
+  @apply lg:h-20 lg:w-auto;
+}
+
+/* Brand Homepage */
+.brand-layout {
+  @apply grid grid-cols-4 gap-2 md:gap-6 mt-4 md:mt-6;
+}
+.brand-layout-item {
+  @apply w-[74px] py-2 md:w-40 md:h-24 text-center bg-white rounded-lg m-auto shadow;
+}
+
+/* Footer */
+.footer {
+  @apply grid grid-cols-5 gap-5 w-full fixed bottom-0 mx-auto bg-white z-10;
+}
+.nav-items {
+  @apply mx-auto py-3;
+}
+.nav-icons {
+  @apply lg:w-10 lg:h-10;
+}
