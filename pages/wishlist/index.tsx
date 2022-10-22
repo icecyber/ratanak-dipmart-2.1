@@ -29,7 +29,7 @@ const WishListPage = () => {
   const removeWishlistHandler = (id: string, index: number) => {
     const data = { product_id: id };
     customAxios.post('/api/method/dipmarts_app.api.itemtowishlist', data);
-    // wishlist.splice(index, 1);
+
     setWishlist((current) => current.filter((e, i) => i !== index));
   };
 

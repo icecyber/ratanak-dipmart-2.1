@@ -8,6 +8,8 @@ body {
   margin: 0;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
     Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  max-width: 1024px;
+  margin: 0 auto;
 }
 
 a {
@@ -30,7 +32,7 @@ a {
 } */
 /* Layout */
 .main-layout {
-  @apply max-w-5xl m-auto px-5 py-2;
+  @apply m-auto  py-2 min-h-screen;
 }
 /* MySwiper */
 .mySwiper {
@@ -51,7 +53,7 @@ a {
   @apply ml-3 lg:w-10 lg:h-10;
 }
 .navbar-logo {
-  @apply lg:h-20 lg:w-auto;
+  @apply py-2;
 }
 
 /* Brand Homepage */
@@ -59,16 +61,16 @@ a {
   @apply grid grid-cols-4 gap-2 md:gap-6 mt-4 md:mt-6;
 }
 .brand-layout-item {
-  @apply w-[74px] py-2 md:w-40 md:h-24 text-center bg-white rounded-lg m-auto shadow;
+  @apply py-3 px-3 w-full  text-center bg-white rounded-lg m-auto shadow;
 }
 
 /* Footer */
 .footer {
-  @apply grid grid-cols-5 gap-5 w-full fixed bottom-0 mx-auto bg-white z-10;
+  @apply grid grid-cols-5 gap-5  sticky bottom-0 mx-auto bg-white shadow-inner z-10;
 }
 .nav-items {
-  @apply mx-auto py-3;
+  @apply mx-auto py-4;
 }
 .nav-icons {
-  @apply lg:w-10 lg:h-10;
+  @apply lg:w-8 lg:h-8;
 }

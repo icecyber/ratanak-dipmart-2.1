@@ -14,7 +14,7 @@ export interface Banner {
   image: string;
 }
 
-interface ShopByBrand {
+export interface ShopByBrand {
   id: string;
   name: string;
   logo: string;
@@ -72,19 +72,25 @@ const Home: NextPage = () => {
               <Image
                 src={data.logo}
                 alt={data.name}
-                width={30}
-                height={30}
+                width={150}
+                height={50}
                 objectFit="contain"
-                className="md:w-[10px] md:h-[10px]"
+                className=""
+                layout="responsive"
               ></Image>
               <h3 className="text-center text-xs">{data.name}</h3>
             </a>
           </Link>
         ))}
-        <div className="w-[74px] py-2 md:w-40 md:h-24 text-center rounded-lg m-auto bg-blue-500">
-          <ThreeDots className={'mx-auto'} />
-          <h3 className="text-center text-xs text-white">See all</h3>
-        </div>
+        {/* See All Button */}
+        <Link href="/category">
+          <a>
+            <div className="py-1 sm:py-3 md:py-4  md:px-3 w-full  text-center rounded-lg m-auto bg-blue-500 shadow">
+              <ThreeDots className={'mx-auto md:w-[150px] md:h-[50px]'} />
+              <h3 className="text-center text-xs text-white">See all</h3>
+            </div>
+          </a>
+        </Link>
       </div>
       {/* Block Item Component Popular*/}
       <div>

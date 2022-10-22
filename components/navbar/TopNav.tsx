@@ -20,7 +20,7 @@ const TopNav = () => {
         </a>
       </Link>
       <div className="navbar-items">
-        <Link href="/">
+        <Link href="/search">
           <a>
             <Search className="navbar-item" />
           </a>
