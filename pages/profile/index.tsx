@@ -1,4 +1,5 @@
 import React from 'react';
+import PrimaryButton from '../../components/button/PrimaryButton';
 import ChevronRight from '../../components/icons/ChevronRight';
 import Clock from '../../components/icons/Clock';
 import HeartIcon from '../../components/icons/HeartIcon';
@@ -45,11 +46,20 @@ const ProfilePage = () => {
           </div>
         </div>
         {/* Settings */}
-        {/* <div className="px-5 bg-[#EAEAEA]">
-          <SettingsComp>
-            <h1>Notification Settings</h1>
-          </SettingsComp>
-        </div> */}
+        <div className="px-5 bg-[#EAEAEA] mt-6 ">
+          <SettingsComp>Notification Settings</SettingsComp>
+        </div>
+        <div className="px-5 bg-[#EAEAEA] mt-4">
+          <SettingsComp subSetting="English">Language</SettingsComp>
+        </div>
+        <div className="px-5 bg-[#EAEAEA] mt-4">
+          <SettingsComp>Privacy Policy</SettingsComp>
+          <SettingsComp>Legal Information</SettingsComp>
+          <SettingsComp subSetting="1.0">Version</SettingsComp>
+        </div>
+        <div className="px-4 md:px-0 mt-7">
+          <PrimaryButton text="Login"></PrimaryButton>
+        </div>
       </div>
     </Layout>
   );
