@@ -7,7 +7,7 @@ import Banner from '../components/Banner';
 import ThreeDots from '../components/icons/ThreeDots';
 import Layout from '../components/Layout';
 import ProductItem from '../components/ProductItem';
-
+import InfiniteScroll from 'react-infinite-scroll-component';
 export interface Banner {
   id: string;
   title: string;
@@ -35,6 +35,8 @@ const Home: NextPage = () => {
   const [secondaryBanner, setSecondaryBanner] = useState([]);
   const [brand, setBrand] = useState<Array<ShopByBrand>>([]);
   const [allProduct, setAllProduct] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
     const FetchData = async () => {
@@ -50,66 +52,87 @@ const Home: NextPage = () => {
     FetchData();
   }, []);
 
-  useEffect(() => {
-    const FetchAllProduct = async () => {
-      const res = await customAxios.get(
-        '/api/method/dipmarts_app.api.allproduct',
-        { params: { current_page: 2 } }
-      );
-    };
-    FetchAllProduct();
-  }, []);
+  const fetchMoreAllProduct = async () => {
+    setCurrentPage(currentPage + 1);
+    // Fetch Next Page
+    const res = await customAxios.get(
+      '/api/method/dipmarts_app.api.allproduct',
+      { params: { current_page: currentPage } }
+    );
+    const newData: [] = res.data.message.result;
+    setAllProduct((oldData) => [...oldData, ...newData]);
+    const lastpage = res.data.message.meta.last_page;
+    if (currentPage === lastpage) {
+      setHasMore(false);
+    }
+  };
 
   return (
     <Layout title="DipMarts">
-      {/* Banner Component */}
-      <Banner banner={banner} />
-      {/* Brand List */}
-      <div className="brand-layout">
-        {brand?.slice(0, 7).map((data: ShopByBrand) => (
-          <Link href={`/brand/${data.name}`} key={data.id}>
-            <a className="brand-layout-item">
-              <Image
-                src={data.logo}
-                alt={data.name}
-                width={150}
-                height={50}
-                objectFit="contain"
-                className=""
-                layout="responsive"
-              ></Image>
-              <h3 className="text-center text-xs">{data.name}</h3>
+      <div className="px-4">
+        {/* Banner Component */}
+        <Banner banner={banner} />
+        {/* Brand List */}
+        <div className="brand-layout">
+          {brand?.slice(0, 7).map((data: ShopByBrand) => (
+            <Link href={`/brand/${data.name}`} key={data.id}>
+              <a className="brand-layout-item">
+                <Image
+                  src={data.logo}
+                  alt={data.name}
+                  width={150}
+                  height={50}
+                  objectFit="contain"
+                  className=""
+                  layout="responsive"
+                ></Image>
+                <h3 className="text-center text-xs">{data.name}</h3>
+              </a>
+            </Link>
+          ))}
+          {/* See All Button */}
+          <Link href="/category/brand">
+            <a>
+              <div className="py-1 sm:py-3 md:py-4  md:px-3 w-full  text-center rounded-lg m-auto bg-blue-500 shadow">
+                <ThreeDots className={'mx-auto md:w-[150px] md:h-[50px]'} />
+                <h3 className="text-center text-xs text-white">See all</h3>
+              </div>
             </a>
           </Link>
-        ))}
-        {/* See All Button */}
-        <Link href="/category">
-          <a>
-            <div className="py-1 sm:py-3 md:py-4  md:px-3 w-full  text-center rounded-lg m-auto bg-blue-500 shadow">
-              <ThreeDots className={'mx-auto md:w-[150px] md:h-[50px]'} />
-              <h3 className="text-center text-xs text-white">See all</h3>
-            </div>
-          </a>
-        </Link>
-      </div>
-      {/* Block Item Component Popular*/}
-      <div>
-        <h1 className="font-bold text-lg my-5">Popular</h1>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          {popularProduct.map((item, index) => (
-            <ProductItem product={item} key={index} />
-          ))}
         </div>
-      </div>
-      {/* Secondary Banner */}
-      <Banner banner={secondaryBanner} />
-      {/* Block Item Component All Product*/}
-      <div className="mb-4">
-        <h1 className="font-bold text-lg my-5">Popular</h1>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          {popularProduct.map((item, index) => (
-            <ProductItem product={item} key={index} />
-          ))}
+        {/* Block Item Component Popular*/}
+        <div>
+          <h1 className="font-bold text-lg my-5">Popular</h1>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+            {popularProduct.map((item, index) => (
+              <ProductItem product={item} key={index} />
+            ))}
+          </div>
+        </div>
+        {/* Secondary Banner */}
+        <Banner banner={secondaryBanner} />
+        {/* Block Item Component All Product*/}
+        <div className="mb-4">
+          <h1 className="font-bold text-lg my-5">All Products</h1>
+
+          {/* Scroll */}
+          <InfiniteScroll
+            dataLength={allProduct.length}
+            next={fetchMoreAllProduct}
+            hasMore={hasMore}
+            loader={<h4>Loading...</h4>}
+            endMessage={
+              <p style={{ textAlign: 'center' }}>
+                <b>Yay! You have seen it all</b>
+              </p>
+            }
+          >
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+              {allProduct.map((item, index) => (
+                <ProductItem product={item} key={index} />
+              ))}
+            </div>
+          </InfiniteScroll>
         </div>
       </div>
     </Layout>

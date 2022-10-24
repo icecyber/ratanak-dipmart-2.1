@@ -24,7 +24,7 @@ const ShopByBrand = () => {
 
   return (
     <Layout title={brandTitle}>
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 px-4">
         {brandData.map((item, index) => (
           <ProductItem product={item} key={index} />
         ))}
