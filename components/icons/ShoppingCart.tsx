@@ -1,5 +1,3 @@
-import { forwardRef } from 'react';
-
 const ShoppingCart = ({ ...props }) => {
   return (
     <svg
@@ -21,4 +19,4 @@ const ShoppingCart = ({ ...props }) => {
   );
 };
 
-export default forwardRef(ShoppingCart);
+export default ShoppingCart;

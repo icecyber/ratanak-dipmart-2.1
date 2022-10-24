@@ -75,24 +75,6 @@ a {
   @apply lg:w-8 lg:h-8;
 }
 
-/* Infinite Scroll */
-
-.post {
-  border-top: 1px solid #ddd;
-  margin: 60px 0;
+.IFC {
+  overflow: unset !important;
 }
-
-.post img {
-  display: block;
-  max-width: 100%;
-}
-
-.page-load-status {
-  display: none; /* hidden by default */
-  padding-top: 20px;
-  border-top: 1px solid #ddd;
-  text-align: center;
-  color: #777;
-}
-
-/* loader ellips in separate pen CSS */

@@ -1,5 +1,3 @@
-import React, { forwardRef } from 'react';
-
 const Dolla = ({ ...props }) => {
   return (
     <svg
@@ -21,4 +19,4 @@ const Dolla = ({ ...props }) => {
   );
 };
 
-export default forwardRef(Dolla);
+export default Dolla;

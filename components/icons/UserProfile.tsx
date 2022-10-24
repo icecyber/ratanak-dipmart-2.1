@@ -1,5 +1,3 @@
-import { forwardRef } from 'react';
-
 const UserProfile = ({ ...props }) => {
   return (
     <svg
@@ -21,4 +19,4 @@ const UserProfile = ({ ...props }) => {
   );
 };
 
-export default forwardRef(UserProfile);
+export default UserProfile;

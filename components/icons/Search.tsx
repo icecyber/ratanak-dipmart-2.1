@@ -1,5 +1,3 @@
-import { forwardRef } from 'react';
-
 const Search = ({ ...props }) => {
   return (
     <svg
@@ -20,4 +18,4 @@ const Search = ({ ...props }) => {
   );
 };
 
-export default forwardRef(Search);
+export default Search;

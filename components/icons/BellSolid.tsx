@@ -1,5 +1,3 @@
-import { forwardRef } from 'react';
-
 const BellSolid = ({ ...props }) => {
   return (
     <svg
@@ -19,4 +17,4 @@ const BellSolid = ({ ...props }) => {
   );
 };
 
-export default forwardRef(BellSolid);
+export default BellSolid;

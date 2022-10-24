@@ -117,12 +117,15 @@ const Home: NextPage = () => {
 
           {/* Scroll */}
           <InfiniteScroll
+            className="IFC"
             dataLength={allProduct.length}
             next={fetchMoreAllProduct}
             hasMore={hasMore}
-            loader={<h4>Loading...</h4>}
+            loader={
+              <h4 className="mt-2 text-gray-400 text-center">Loading...</h4>
+            }
             endMessage={
-              <p style={{ textAlign: 'center' }}>
+              <p className="text-center mt-2 text-gray-500">
                 <b>Yay! You have seen it all</b>
               </p>
             }

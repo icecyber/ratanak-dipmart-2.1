@@ -1,5 +1,3 @@
-import React, { forwardRef } from 'react';
-
 const DeliveryIcon = ({ ...props }) => {
   return (
     <svg
@@ -46,4 +44,4 @@ const DeliveryIcon = ({ ...props }) => {
   );
 };
 
-export default forwardRef(DeliveryIcon);
+export default DeliveryIcon;

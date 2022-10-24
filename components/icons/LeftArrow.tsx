@@ -1,5 +1,3 @@
-import React, { forwardRef } from 'react';
-
 const LeftArrow = ({ ...props }) => {
   return (
     <svg
@@ -21,4 +19,4 @@ const LeftArrow = ({ ...props }) => {
   );
 };
 
-export default forwardRef(LeftArrow);
+export default LeftArrow;

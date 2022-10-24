@@ -1,5 +1,3 @@
-import React, { forwardRef } from 'react';
-
 const Close = ({ ...props }) => {
   return (
     <svg
@@ -21,4 +19,4 @@ const Close = ({ ...props }) => {
   );
 };
 
-export default forwardRef(Close);
+export default Close;

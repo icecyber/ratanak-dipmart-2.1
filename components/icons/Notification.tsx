@@ -1,5 +1,3 @@
-import { forwardRef } from 'react';
-
 const Notification = ({ ...props }) => {
   return (
     <svg
@@ -20,4 +18,4 @@ const Notification = ({ ...props }) => {
   );
 };
 
-export default forwardRef(Notification);
+export default Notification;

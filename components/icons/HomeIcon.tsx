@@ -1,5 +1,3 @@
-import { forwardRef } from 'react';
-
 const HomeIcon = ({ ...props }) => {
   return (
     <svg
@@ -21,4 +19,4 @@ const HomeIcon = ({ ...props }) => {
   );
 };
 
-export default forwardRef(HomeIcon);
+export default HomeIcon;

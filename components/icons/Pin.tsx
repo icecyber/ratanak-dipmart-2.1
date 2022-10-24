@@ -1,5 +1,3 @@
-import React, { forwardRef } from 'react';
-
 const Pin = ({ ...props }) => {
   return (
     <svg
@@ -26,4 +24,4 @@ const Pin = ({ ...props }) => {
   );
 };
 
-export default forwardRef(Pin);
+export default Pin;

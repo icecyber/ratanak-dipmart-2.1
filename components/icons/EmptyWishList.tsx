@@ -1,5 +1,3 @@
-import React, { forwardRef } from 'react';
-
 const EmptyWishList = ({ ...props }) => {
   return (
     <svg
@@ -83,4 +81,4 @@ const EmptyWishList = ({ ...props }) => {
   );
 };
 
-export default forwardRef(EmptyWishList);
+export default EmptyWishList;

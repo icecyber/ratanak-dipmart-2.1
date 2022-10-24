@@ -1,5 +1,3 @@
-import { forwardRef } from 'react';
-
 const EmptyCart = () => {
   return (
     <svg
@@ -360,4 +358,4 @@ const EmptyCart = () => {
   );
 };
 
-export default forwardRef(EmptyCart);
+export default EmptyCart;
