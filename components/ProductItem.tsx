@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { useState } from 'react';
 import customAxios from './axios/axiosHttp';
 import HeartIcon from './icons/HeartIcon';
@@ -52,27 +53,35 @@ const ProductItem = ({ product }: any) => {
           </button>
         )}
         {/* End Condition Wishlist */}
-        <Image
-          src={product.primary_image}
-          width={106}
-          height={133}
-          alt={product.name}
-        />
       </div>
-      <div className="relative p-3">
-        <h1 className="font-bold text-xs pb-3">{product.name}</h1>
-        <div className="flex">
-          <h1 className="font-bold text-xs text-blue-800 mr-1">
-            $ {product.default_price}
-          </h1>
-          <s className="text-[10px] text- text-red-600">
-            {product.discount ? product.discount : ''}
-          </s>
-        </div>
-        <button className="p-1 bg-white rounded-full shadow-xl absolute right-2 bottom-2">
-          <Plus className={'w-[20px] h-[20px] text-blue-800 font-bold'} />
-        </button>
-      </div>
+
+      <Link href={`/product/${product.id}`}>
+        <a>
+          <div className="flex justify-center">
+            <Image
+              src={product.primary_image}
+              width={106}
+              height={133}
+              alt={product.name}
+              objectFit="cover"
+            />
+          </div>
+          <div className="relative p-3">
+            <h1 className="font-bold text-xs pb-3">{product.name}</h1>
+            <div className="flex">
+              <h1 className="font-bold text-xs text-blue-800 mr-1">
+                $ {product.default_price}
+              </h1>
+              <s className="text-[10px] text- text-red-600">
+                {product.discount ? product.discount : ''}
+              </s>
+            </div>
+          </div>
+        </a>
+      </Link>
+      <button className="p-1 bg-white rounded-full shadow-xl absolute right-2 bottom-2">
+        <Plus className={'w-[20px] h-[20px] text-blue-800 font-bold'} />
+      </button>
     </div>
   );
 };

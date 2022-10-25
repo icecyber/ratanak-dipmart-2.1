@@ -1,9 +1,13 @@
 import React from 'react';
 
-const TopNavCategory = (props: any) => {
+interface layout {
+  title: string;
+}
+
+const TopNavCategory = ({ title }: layout) => {
   return (
     <div className="font-bold text-base py-5 text-center bg-white shadow">
-      {props.title}
+      {title}
     </div>
   );
 };

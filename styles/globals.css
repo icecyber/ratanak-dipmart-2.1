@@ -32,7 +32,7 @@ a {
 } */
 /* Layout */
 .main-layout {
-  @apply m-auto  py-2 min-h-screen;
+  @apply m-auto  py-2;
 }
 /* MySwiper */
 .mySwiper {
