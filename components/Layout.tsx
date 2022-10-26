@@ -10,7 +10,7 @@ import TopNav from './navbar/TopNav';
 import TopNavCategory from './navbar/TopNavCategory';
 
 interface Layout {
-  title: string;
+  title: any;
   children: any;
 }
 
