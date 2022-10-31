@@ -1,7 +1,10 @@
 import { Progress } from '@material-tailwind/react';
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+import { createSecureContext } from 'tls';
 import customAxios from '../../components/axios/axiosHttp';
+import PrimaryButton from '../../components/button/PrimaryButton';
 import Close from '../../components/icons/Close';
 import Dolla from '../../components/icons/Dolla';
 import EmptyCart from '../../components/icons/EmptyCart';
@@ -42,6 +45,7 @@ const CartPage = () => {
   // Cart Data
   const [cartList, setCartList] = useState<Array<CartItem>>([]);
   const [cartRelate, setCartRelate] = useState([]);
+  const [total, setTotal] = useState();
 
   // Get Cart
   useEffect(() => {
@@ -58,6 +62,13 @@ const CartPage = () => {
     };
     GetCart();
   }, []);
+
+  const RemoveCart = (id: string, index: number) => {
+    customAxios.post('/api/method/dipmarts_app.api.removecart', {
+      id: id,
+    });
+    setCartList((current) => current.filter((item) => item.id !== id));
+  };
 
   return (
     <Layout title="My Cart">
@@ -162,7 +173,9 @@ const CartPage = () => {
                   </div>
                   {/* End Into */}
                   <div className="flex flex-col justify-between items-end">
-                    <Close className={'text-blue-900 w-[30px] h-[30px]'} />
+                    <button onClick={() => RemoveCart(product.id, index)}>
+                      <Close className={'text-blue-900 w-[30px] h-[30px]'} />
+                    </button>
                     <PlusPairButton />
                   </div>
                 </div>
@@ -170,7 +183,7 @@ const CartPage = () => {
             </div>
             {/* Cart Item End */}
             {/* Product May you Like */}
-            <div className="pt-4 ">
+            <div className="pt-4 mb-16">
               <h1 className="font-bold text-lg my-5">
                 Products you might like
               </h1>
@@ -183,6 +196,18 @@ const CartPage = () => {
               </div>
             </div>
             {/* End Product May you like */}
+            {/* Total and Checkout */}
+            <div className="grid grid-cols-3 w-full sticky bottom-14 bg-white px-2 py-3 z-50">
+              <div>
+                <h3 className="text-sm text-gray-500">Total</h3>
+                <h1 className="text-blue-900 font-bold">$1,199.00</h1>
+              </div>
+              <Link href="/cart/address">
+                <button className="col-span-2">
+                  <PrimaryButton text="Checkout" />
+                </button>
+              </Link>
+            </div>
           </div>
         </>
       )}

@@ -9,6 +9,14 @@ const ProductItem = ({ product }: any) => {
   const [isWishList, setIsWishList] = useState(product.in_wishlist);
   const data = { product_id: product.id };
 
+  // Add To Cart Body
+  const AddCartBody = {
+    product_id: product.id,
+    selection: product.pre_spec.spec,
+    qty: 1,
+    noted: '',
+  };
+
   const falseHandler = (event: any) => {
     customAxios.post('/api/method/dipmarts_app.api.itemtowishlist', data);
     setIsWishList(false);
@@ -17,6 +25,10 @@ const ProductItem = ({ product }: any) => {
   const trueHandler = (event: any) => {
     customAxios.post('/api/method/dipmarts_app.api.itemtowishlist', data);
     setIsWishList(true);
+  };
+
+  const AddToCart = () => {
+    customAxios.post('/api/method/dipmarts_app.api.addtocart', AddCartBody);
   };
 
   return (
@@ -79,7 +91,10 @@ const ProductItem = ({ product }: any) => {
           </div>
         </a>
       </Link>
-      <button className="p-1 bg-white rounded-full shadow-xl absolute right-2 bottom-2">
+      <button
+        className="p-1 bg-white rounded-full shadow-xl absolute right-2 bottom-2"
+        onClick={AddToCart}
+      >
         <Plus className={'w-[20px] h-[20px] text-blue-800 font-bold'} />
       </button>
     </div>

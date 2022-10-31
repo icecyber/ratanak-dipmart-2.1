@@ -23,30 +23,30 @@ const EmptyWishList = ({ ...props }) => {
       <path
         d="M220.815 155.823C223.051 155.823 224.864 154.01 224.864 151.774C224.864 149.537 223.051 147.725 220.815 147.725C218.578 147.725 216.766 149.537 216.766 151.774C216.766 154.01 218.578 155.823 220.815 155.823Z"
         fill="#2B2F7E"
-        fill-opacity="0.5"
+        fillOpacity="0.5"
       />
       <path
         d="M230.454 146.182C233.542 146.182 236.045 143.679 236.045 140.591C236.045 137.503 233.542 135 230.454 135C227.366 135 224.863 137.503 224.863 140.591C224.863 143.679 227.366 146.182 230.454 146.182Z"
         fill="#2B2F7E"
-        fill-opacity="0.5"
+        fillOpacity="0.5"
       />
       <path
         d="M216.766 139.627C217.617 139.627 218.308 138.937 218.308 138.085C218.308 137.233 217.617 136.543 216.766 136.543C215.914 136.543 215.224 137.233 215.224 138.085C215.224 138.937 215.914 139.627 216.766 139.627Z"
         fill="#2B2F7E"
-        fill-opacity="0.5"
+        fillOpacity="0.5"
       />
       <path
         d="M187.753 192.539C187.753 193.295 187.14 193.907 186.384 193.907C185.628 193.907 185.016 193.295 185.016 192.539C185.016 191.783 185.628 191.17 186.384 191.17C187.14 191.17 187.753 191.783 187.753 192.539Z"
         fill="#9E9E9E"
         stroke="#9E9E9E"
-        stroke-width="0.185547"
+        strokeWidth="0.185547"
       />
       <path
         d="M182 179.571C182 179.555 182 179.539 182 179.523C182 178.632 182.256 177.76 182.735 177.017C183.214 176.275 183.895 175.695 184.692 175.351C185.489 175.006 186.368 174.913 187.217 175.082C188.065 175.251 188.847 175.676 189.462 176.302C190.078 176.928 190.501 177.728 190.677 178.601C190.853 179.474 190.776 180.381 190.453 181.209C190.131 182.037 189.579 182.747 188.867 183.252C188.154 183.757 187.313 184.033 186.448 184.046V188.154"
         stroke="#9E9E9E"
-        stroke-width="2.19231"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2.19231"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         opacity="0.5"
@@ -62,8 +62,8 @@ const EmptyWishList = ({ ...props }) => {
           y2="93.9836"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F9F9F9" />
-          <stop offset="1" stop-color="#F3F3F3" />
+          <stop stopColor="#F9F9F9" />
+          <stop offset="1" stopColor="#F3F3F3" />
         </linearGradient>
         <linearGradient
           id="paint1_linear_6581_13648"
@@ -73,8 +73,8 @@ const EmptyWishList = ({ ...props }) => {
           y2="174.72"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#E8EBF1" stop-opacity="0.23774" />
-          <stop offset="1" stop-color="#A2ABB9" />
+          <stop stopColor="#E8EBF1" stopOpacity="0.23774" />
+          <stop offset="1" stopColor="#A2ABB9" />
         </linearGradient>
       </defs>
     </svg>

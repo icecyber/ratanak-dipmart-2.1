@@ -66,7 +66,7 @@ a {
 
 /* Footer */
 .footer {
-  @apply grid grid-cols-5 gap-5  sticky bottom-0 mx-auto bg-white shadow-inner z-10;
+  @apply grid grid-cols-5 gap-5  fixed w-full bottom-0 mx-auto bg-white shadow-inner z-10;
 }
 .nav-items {
   @apply mx-auto py-4;

@@ -15,7 +15,7 @@ const EmptyCart = () => {
           clipRule="evenodd"
           d="M110.729 -14C134.155 -14 155.755 -6.30589 173.064 6.65514L166.101 6.65575C162.806 6.65575 160.134 9.32736 160.134 12.623V13.082C160.134 16.3776 162.806 19.0492 166.101 19.0492L186.839 19.0488C190.773 23.2886 194.347 27.8583 197.511 32.7107L207.356 32.7108C210.906 32.7108 213.783 35.5879 213.783 39.137V39.4957C213.783 42.4278 211.819 44.9013 209.135 45.6727L200.069 45.6722C196.013 45.6722 192.724 48.9603 192.724 53.0164V55.3115C192.724 59.3676 196.013 62.6558 200.069 62.6558L231.237 62.6558C234.427 63.4552 236.79 66.3417 236.79 69.7801V70.19C236.79 74.2462 233.502 77.5343 229.446 77.5343L213.297 77.5338C213.618 80.7941 213.783 84.0995 213.783 87.4427C213.783 143.468 167.644 188.885 110.729 188.885C65.2047 188.885 26.5748 159.828 12.936 119.527L9.06836 119.527C7.50486 119.527 6.2374 118.259 6.2374 116.696C6.2374 115.503 6.97513 114.483 8.01922 114.066L12.7899 114.066C16.0855 114.066 18.7571 111.394 18.7571 108.098V107.639C18.7571 104.344 16.0855 101.672 12.7899 101.672L8.68124 101.672C8.67774 101.648 8.67426 101.623 8.67078 101.599L-1.50664 101.597C-4.11246 101.597 -6.2249 99.485 -6.2249 96.8792C-6.2249 94.2734 -4.11246 92.1609 -1.50664 92.1609L7.78489 92.1617C7.71214 90.5976 7.67536 89.0244 7.67536 87.4427C7.67536 72.465 10.9729 58.2454 16.8923 45.449L0.396413 45.4501C-6.70181 45.4501 -12.4561 39.6959 -12.4561 32.5977V31.8803C-12.4561 25.0305 -7.09756 19.4323 -0.343772 19.0488L57.7735 19.0492C60.3086 19.0492 62.3637 16.9941 62.3637 14.459C62.3637 11.924 60.3086 9.86886 57.7735 9.86886L44.3204 9.86841C44.4324 9.77541 44.5446 9.68265 44.657 9.59011L37.9661 9.59132C33.1494 9.59132 29.2447 5.68665 29.2447 0.870003V0.383233C29.2447 -4.43342 33.1494 -8.33808 37.9661 -8.33808L76.699 -8.33888C87.3524 -12.0062 98.8042 -14 110.729 -14Z"
           fill="#F3F3FA"
-          fill-opacity="0.5"
+          fillOpacity="0.5"
         />
         <path
           d="M57.6716 48.8706H54.3156C54.3156 42.1527 48.8696 36.7068 42.1517 36.7068C35.4338 36.7068 29.9877 42.1527 29.9877 48.8706H27.5363C24.4458 48.8706 21.9404 51.5938 21.9404 54.9528C21.9404 58.3118 24.4459 61.0346 27.5363 61.0346H57.6717C60.7627 61.0346 63.2678 58.3116 63.2678 54.9528C63.2678 51.5937 60.7625 48.8706 57.6716 48.8706Z"
@@ -125,8 +125,8 @@ const EmptyCart = () => {
         <path
           d="M111.959 82.7225C101.903 88.0988 93.2248 90.3099 85.9252 89.3559C80.0983 88.4783 79.0959 82.232 83.4934 80.3654C87.8909 78.4987 91.7414 80.1546 93.58 84.4862C95.4187 88.8178 94.6852 95.0765 91.4382 99.0823"
           stroke="url(#paint12_linear_2694_16757)"
-          stroke-width="2"
-          stroke-linecap="round"
+          strokeWidth="2"
+          strokeLinecap="round"
         />
         <path
           d="M84.9725 105.793C82.8678 104.132 80.9014 104.622 79.0733 107.264C78.1244 108.733 77.7706 110.793 75.9357 111.25C82.1899 111.822 85.2022 110.002 84.9725 105.793Z"
@@ -135,7 +135,7 @@ const EmptyCart = () => {
         <path
           d="M87.0696 103.631C86.7661 104.927 84.5939 106.689 80.553 108.918"
           stroke="url(#paint14_linear_2694_16757)"
-          stroke-linecap="round"
+          strokeLinecap="round"
         />
         <path
           d="M158.217 89.6188C156.234 87.8151 154.238 88.167 152.23 90.6745C151.181 92.074 150.684 94.104 148.822 94.4323C155.021 95.4386 158.153 93.8341 158.217 89.6188Z"
@@ -144,14 +144,14 @@ const EmptyCart = () => {
         <path
           d="M160.46 87.6082C160.067 88.8802 157.777 90.4867 153.591 92.4275"
           stroke="url(#paint16_linear_2694_16757)"
-          stroke-linecap="round"
+          strokeLinecap="round"
         />
         <path
           d="M161.331 79.6559C156.785 82.9815 152.845 84.9985 149.512 85.7069"
           stroke="url(#paint17_linear_2694_16757)"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </g>
       <defs>
@@ -163,8 +163,8 @@ const EmptyCart = () => {
           y2="53.2766"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#E0E5EF" stop-opacity="0" />
-          <stop offset="1" stop-color="#E0E5EF" />
+          <stop stopColor="#E0E5EF" stopOpacity="0" />
+          <stop offset="1" stopColor="#E0E5EF" />
         </linearGradient>
         <linearGradient
           id="paint1_linear_2694_16757"
@@ -174,8 +174,8 @@ const EmptyCart = () => {
           y2="39.8801"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#E0E5EF" stop-opacity="0" />
-          <stop offset="1" stop-color="#E0E5EF" />
+          <stop stopColor="#E0E5EF" stopOpacity="0" />
+          <stop offset="1" stopColor="#E0E5EF" />
         </linearGradient>
         <linearGradient
           id="paint2_linear_2694_16757"
@@ -185,8 +185,8 @@ const EmptyCart = () => {
           y2="148.766"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#E0E5EF" stop-opacity="0" />
-          <stop offset="1" stop-color="#E0E5EF" />
+          <stop stopColor="#E0E5EF" stopOpacity="0" />
+          <stop offset="1" stopColor="#E0E5EF" />
         </linearGradient>
         <linearGradient
           id="paint3_linear_2694_16757"
@@ -196,8 +196,8 @@ const EmptyCart = () => {
           y2="157.946"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#E0E5EF" stop-opacity="0" />
-          <stop offset="1" stop-color="#E0E5EF" />
+          <stop stopColor="#E0E5EF" stopOpacity="0" />
+          <stop offset="1" stopColor="#E0E5EF" />
         </linearGradient>
         <linearGradient
           id="paint4_linear_2694_16757"
@@ -207,8 +207,8 @@ const EmptyCart = () => {
           y2="160.619"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#E0E5EF" stop-opacity="0" />
-          <stop offset="1" stop-color="#E0E5EF" />
+          <stop stopColor="#E0E5EF" stopOpacity="0" />
+          <stop offset="1" stopColor="#E0E5EF" />
         </linearGradient>
         <linearGradient
           id="paint5_linear_2694_16757"
@@ -218,8 +218,8 @@ const EmptyCart = () => {
           y2="128.281"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#E8EBF1" stop-opacity="0.23774" />
-          <stop offset="1" stop-color="#A2ABB9" />
+          <stop stopColor="#E8EBF1" stopOpacity="0.23774" />
+          <stop offset="1" stopColor="#A2ABB9" />
         </linearGradient>
         <linearGradient
           id="paint6_linear_2694_16757"
@@ -229,8 +229,8 @@ const EmptyCart = () => {
           y2="101.292"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#A2ABB9" />
-          <stop offset="1" stop-color="#E7EAF0" />
+          <stop stopColor="#A2ABB9" />
+          <stop offset="1" stopColor="#E7EAF0" />
         </linearGradient>
         <linearGradient
           id="paint7_linear_2694_16757"
@@ -240,8 +240,8 @@ const EmptyCart = () => {
           y2="96.9376"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#A2ABB9" />
-          <stop offset="1" stop-color="#E7EAF0" />
+          <stop stopColor="#A2ABB9" />
+          <stop offset="1" stopColor="#E7EAF0" />
         </linearGradient>
         <linearGradient
           id="paint8_linear_2694_16757"
@@ -251,8 +251,8 @@ const EmptyCart = () => {
           y2="100.999"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#A2ABB9" />
-          <stop offset="1" stop-color="#E7EAF0" />
+          <stop stopColor="#A2ABB9" />
+          <stop offset="1" stopColor="#E7EAF0" />
         </linearGradient>
         <linearGradient
           id="paint9_linear_2694_16757"
@@ -262,8 +262,8 @@ const EmptyCart = () => {
           y2="101.826"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#A2ABB9" />
-          <stop offset="1" stop-color="#E7EAF0" />
+          <stop stopColor="#A2ABB9" />
+          <stop offset="1" stopColor="#E7EAF0" />
         </linearGradient>
         <linearGradient
           id="paint10_linear_2694_16757"
@@ -273,8 +273,8 @@ const EmptyCart = () => {
           y2="114.992"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#A2ABB9" />
-          <stop offset="1" stop-color="#E7EAF0" />
+          <stop stopColor="#A2ABB9" />
+          <stop offset="1" stopColor="#E7EAF0" />
         </linearGradient>
         <linearGradient
           id="paint11_linear_2694_16757"
@@ -284,8 +284,8 @@ const EmptyCart = () => {
           y2="105.895"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#A2ABB9" />
-          <stop offset="1" stop-color="#E7EAF0" />
+          <stop stopColor="#A2ABB9" />
+          <stop offset="1" stopColor="#E7EAF0" />
         </linearGradient>
         <linearGradient
           id="paint12_linear_2694_16757"
@@ -295,8 +295,8 @@ const EmptyCart = () => {
           y2="98.5538"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#A2ABB9" />
-          <stop offset="1" stop-color="#E7EAF0" />
+          <stop stopColor="#A2ABB9" />
+          <stop offset="1" stopColor="#E7EAF0" />
         </linearGradient>
         <linearGradient
           id="paint13_linear_2694_16757"
@@ -306,8 +306,8 @@ const EmptyCart = () => {
           y2="105.582"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#A2ABB9" />
-          <stop offset="1" stop-color="#E7EAF0" />
+          <stop stopColor="#A2ABB9" />
+          <stop offset="1" stopColor="#E7EAF0" />
         </linearGradient>
         <linearGradient
           id="paint14_linear_2694_16757"
@@ -317,8 +317,8 @@ const EmptyCart = () => {
           y2="109.613"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#A2ABB9" />
-          <stop offset="1" stop-color="#E7EAF0" />
+          <stop stopColor="#A2ABB9" />
+          <stop offset="1" stopColor="#E7EAF0" />
         </linearGradient>
         <linearGradient
           id="paint15_linear_2694_16757"
@@ -328,8 +328,8 @@ const EmptyCart = () => {
           y2="88.844"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#A2ABB9" />
-          <stop offset="1" stop-color="#E7EAF0" />
+          <stop stopColor="#A2ABB9" />
+          <stop offset="1" stopColor="#E7EAF0" />
         </linearGradient>
         <linearGradient
           id="paint16_linear_2694_16757"
@@ -339,8 +339,8 @@ const EmptyCart = () => {
           y2="93.2168"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#A2ABB9" />
-          <stop offset="1" stop-color="#E7EAF0" />
+          <stop stopColor="#A2ABB9" />
+          <stop offset="1" stopColor="#E7EAF0" />
         </linearGradient>
         <linearGradient
           id="paint17_linear_2694_16757"
@@ -350,8 +350,8 @@ const EmptyCart = () => {
           y2="87.5523"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#A2ABB9" />
-          <stop offset="1" stop-color="#E7EAF0" />
+          <stop stopColor="#A2ABB9" />
+          <stop offset="1" stopColor="#E7EAF0" />
         </linearGradient>
       </defs>
     </svg>

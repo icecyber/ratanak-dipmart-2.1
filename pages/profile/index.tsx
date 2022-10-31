@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PrimaryButton from '../../components/button/PrimaryButton';
 import ChevronRight from '../../components/icons/ChevronRight';
 import Clock from '../../components/icons/Clock';
@@ -9,14 +9,77 @@ import Ticket from '../../components/icons/Ticket';
 import UserProfile from '../../components/icons/UserProfile';
 import Layout from '../../components/Layout';
 import SettingsComp from '../../components/SettingsComp';
-import Login from '../../components/profile/Login';
-import Signup from '../../components/profile/Signup';
+import { Input } from '@material-tailwind/react';
+import Link from 'next/link';
+import customAxios from '../../components/axios/axiosHttp';
+import Cookies from 'js-cookie';
+import router from 'next/router';
+import { useForm } from 'react-hook-form';
+
+interface Username {
+  account_id: string;
+  avatar: string;
+  birthday: string;
+  country_code: string;
+  email: string;
+  image: string;
+  fullname: string;
+  gender: string;
+  phone_number: string;
+}
 
 const ProfilePage = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [userProfile, setUserProfile] = useState<Username>();
   const [switchPage, setSwitchPage] = useState('login');
   const [isModal, setIsModal] = useState(false);
+  const finalUsername = username.substring(1);
+  const [wrongUser, setWrongUser] = useState(false);
+
+  const LoginHandler = async (e: any) => {
+    e.preventDefault();
+    const res: any = await customAxios.post(
+      '/api/method/dipmarts_app.api.login',
+      {
+        username: `+855${finalUsername}`,
+        password: password,
+      }
+    );
+    console.log(res);
+
+    if (res?.response?.status === 404) {
+      setWrongUser(true);
+      return;
+    }
+    const api_key = res.data.message.api_key;
+    const api_secret = res.data.message.api_secret;
+    const Authorization = `Token ${api_key}:${api_secret}`;
+    setIsModal(false);
+    Cookies.set('Authorization', Authorization, { expires: 1 / 24 });
+    router.reload();
+  };
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      const res = await customAxios.get(
+        '/api/method/dipmarts_app.api.userprofile'
+      );
+      setUserProfile(res.data.message);
+      console.log(userProfile);
+    };
+    fetchUserProfile();
+  }, []);
+
+  const LogoutHandler = () => {
+    Cookies.remove('Authorization');
+    router.reload();
+  };
+
   return (
-    <Layout title="You logged in as guest">
+    <Layout
+      title={userProfile?.account_id ? 'My Account' : 'You logged in as guest'}
+    >
       <div>
         {/* Login Start Shopping */}
         <div
@@ -24,12 +87,28 @@ const ProfilePage = () => {
           onClick={() => setIsModal(!false)}
         >
           <div className="flex">
-            <div className="bg-blue-900 p-1 rounded-full">
-              <UserProfile className={'w-12 h-12 text-white'} />
-            </div>
+            {userProfile?.account_id ? (
+              <div className="w-14 h-14">
+                <img
+                  src={userProfile.avatar}
+                  alt={userProfile.account_id}
+                  className="rounded-full"
+                />
+              </div>
+            ) : (
+              <div className="bg-blue-900 p-1 rounded-full">
+                <UserProfile className={'w-12 h-12 text-white'} />
+              </div>
+            )}
             <div className="ml-5">
-              <h1 className="text-xl font-bold">Login</h1>
-              <p className="text-gray-500">Start Shopping</p>
+              <h1 className="text-xl font-bold">
+                {userProfile?.account_id ? userProfile.fullname : 'Login'}
+              </h1>
+              <p className="text-gray-500">
+                {userProfile?.account_id
+                  ? 'Account Information'
+                  : 'Start Shopping'}
+              </p>
             </div>
           </div>
           <ChevronRight />
@@ -66,9 +145,16 @@ const ProfilePage = () => {
           <SettingsComp subSetting="1.0">Version</SettingsComp>
         </div>
         {/* Login Button */}
-        <div className="px-4 md:px-0 mt-7" onClick={() => setIsModal(!false)}>
-          <PrimaryButton text="Login"></PrimaryButton>
-        </div>
+        {userProfile?.account_id ? (
+          <div className="px-4 md:px-0 mt-7" onClick={LogoutHandler}>
+            <PrimaryButton text={'Logout'}></PrimaryButton>
+          </div>
+        ) : (
+          <div className="px-4 md:px-0 mt-7" onClick={() => setIsModal(!false)}>
+            <PrimaryButton text={'Login'}></PrimaryButton>
+          </div>
+        )}
+
         {/* Logo DiPMart */}
         <div className="pt-5">
           <img
@@ -85,7 +171,9 @@ const ProfilePage = () => {
         </div>
       </div>
       {/* Login Screen */}
-      {isModal ? (
+      {userProfile?.account_id ? (
+        ''
+      ) : isModal ? (
         <>
           <div
             className="bg-black bg-transparent bg-opacity-50 w-full absolute top-0 h-[100%]"
@@ -115,7 +203,53 @@ const ProfilePage = () => {
                   Login
                 </div>
               </div>
-              {switchPage === 'login' ? <Login /> : <Signup />}
+              {switchPage === 'login' ? (
+                <div className="px-4 mt-5">
+                  <form onSubmit={LoginHandler}>
+                    <div className="grid grid-rows-2 gap-5">
+                      <Input
+                        label="(+855) Phone Number*"
+                        type={'number'}
+                        onChange={(e) => setUsername(e.target.value)}
+                        error={wrongUser}
+                      />
+                      <Input
+                        label="Password"
+                        onChange={(e) => setPassword(e.target.value)}
+                        type="password"
+                        error={wrongUser}
+                      />
+                    </div>
+                    <div className="mt-14 pb-6">
+                      <Link href="/">
+                        <a className="line-through text-sm text-blue-500 ">
+                          Forgot password?
+                        </a>
+                      </Link>
+                    </div>
+                    <button className="pb-5 w-full" type="submit">
+                      <PrimaryButton text={'Login'}></PrimaryButton>
+                    </button>
+                  </form>
+                </div>
+              ) : (
+                <div className="px-4 mt-5">
+                  <div className="grid grid-rows-3 ">
+                    <h1 className="font-bold">Register with Phone Number</h1>
+                    <p className="text-xs text-gray-600">
+                      Please enter your phone number to continue
+                    </p>
+                    <Input
+                      label="(+855) Phone Number"
+                      type={'number'}
+                      required
+                    />
+                  </div>
+                  <div className="py-5">
+                    <PrimaryButton text={'Countinue'}></PrimaryButton>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </>

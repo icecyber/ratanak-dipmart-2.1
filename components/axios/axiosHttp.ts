@@ -1,19 +1,27 @@
 import axios from 'axios';
-
+import Cookies from 'js-cookie';
 import { ErrorAlert } from './alert';
 
-export const customAxios = axios.create({
+export const getHeader = (token = '') => {
+  if (typeof window !== 'undefined') {
+    token =
+      Cookies.get('Authorization') ?? 'Token bceaff231358912:0ad1cb16e77f552';
+  }
+  return {
+    Authorization: token,
+  };
+};
+
+const customAxios = axios.create({
   baseURL: 'https://dev.dipmarts.com',
-  headers: {
-    Authorization: 'Token e72b1ea61e7508f:a1bb165d628161e',
-    'Access-Control-Allow-Origin': '*',
-  },
+  headers: getHeader(),
 });
 customAxios.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response.status) {
       ErrorAlert(error.message, true);
+      return error;
     }
   }
 );
