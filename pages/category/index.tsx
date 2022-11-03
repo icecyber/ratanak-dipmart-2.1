@@ -25,10 +25,10 @@ const CategoryPage = () => {
 
   return (
     <Layout title="Category">
-      <div className="grid grid-cols-2 gap-4 mt-4">
+      <div className="grid grid-cols-2 mt-4">
         {category.map((data) => (
           <Link href={`/category/${data.id}`} key={data.id}>
-            <div className="relative">
+            <div className="relative text-center">
               <h1 className="text-lg font-bold absolute left-4 z-10 bottom-4 text-white ">
                 {data.name}
               </h1>

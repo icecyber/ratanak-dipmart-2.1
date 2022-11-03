@@ -1,28 +1,23 @@
-/* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from 'react';
 import PrimaryButton from '../../components/button/PrimaryButton';
 import ChevronRight from '../../components/icons/ChevronRight';
-import Clock from '../../components/icons/Clock';
 import HeartIcon from '../../components/icons/HeartIcon';
 import Paper from '../../components/icons/Paper';
-import Ticket from '../../components/icons/Ticket';
 import UserProfile from '../../components/icons/UserProfile';
 import Layout from '../../components/Layout';
 import SettingsComp from '../../components/SettingsComp';
 import { Input } from '@material-tailwind/react';
 import Link from 'next/link';
 import customAxios from '../../components/axios/axiosHttp';
-import Cookies from 'js-cookie';
-import router from 'next/router';
-import { useForm } from 'react-hook-form';
+import axios from 'axios';
+import Image from 'next/image';
 
-interface Username {
+interface userProfile {
   account_id: string;
   avatar: string;
   birthday: string;
-  country_code: string;
+  country_code: any;
   email: string;
-  image: string;
   fullname: string;
   gender: string;
   phone_number: string;
@@ -31,49 +26,112 @@ interface Username {
 const ProfilePage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [userProfile, setUserProfile] = useState<Username>();
+  const [userProfile, setUserProfile] = useState<userProfile>();
   const [switchPage, setSwitchPage] = useState('login');
   const [isModal, setIsModal] = useState(false);
   const finalUsername = username.substring(1);
   const [wrongUser, setWrongUser] = useState(false);
+  const [loginToken, setLoginToken] = useState('');
 
   const LoginHandler = async (e: any) => {
     e.preventDefault();
-    const res: any = await customAxios.post(
+    // const res: any = await customAxios.post(
+    //   '/api/method/dipmarts_app.api.login',
+    //   {
+    //     username: `+855968888418`,
+    //     password: '@ratanak168',
+    //   }
+    // );
+
+    // if (res?.response?.status === 404) {
+    //   setWrongUser(true);
+    //   return;
+    // }
+    // const api_key = res.data.message.api_key;
+    // const api_secret = res.data.message.api_secret;
+    // const Authorization = `Token ${api_key}:${api_secret}`;
+    // setIsModal(false);
+    // Cookies.set('Authorization', Authorization);
+    // // fetchUserDetail();
+    // console.log(Cookies.get('Authorization'));
+    login();
+  };
+
+  const login = async () => {
+    const headers = { Authorization: loginToken };
+    const loginData = {
+      username: `+855${username.substring(1)}`,
+      password: password,
+    };
+    const baseURL = 'https://dev.dipmarts.com';
+    const loginRes = await axios.post(
       '/api/method/dipmarts_app.api.login',
+      loginData,
       {
-        username: `+855${finalUsername}`,
-        password: password,
+        headers,
+        baseURL,
       }
     );
-    console.log(res);
+    console.log(loginRes);
 
-    if (res?.response?.status === 404) {
+    if (loginRes?.data?.response?.status === 404) {
       setWrongUser(true);
       return;
     }
-    const api_key = res.data.message.api_key;
-    const api_secret = res.data.message.api_secret;
-    const Authorization = `Token ${api_key}:${api_secret}`;
+
+    console.log(wrongUser);
+
+    const tokenAfterLogin = `Token ${loginRes?.data?.message.api_key}:${loginRes?.data?.message.api_secret}`;
+    setToLocalStorageAfterLogin(tokenAfterLogin);
+    getUserDetailAfterLogIn(tokenAfterLogin);
     setIsModal(false);
-    Cookies.set('Authorization', Authorization, { expires: 1 / 24 });
-    router.reload();
+  };
+
+  const getGuestUser = async () => {
+    const res = await (
+      await customAxios.get('/api/method/dipmarts_app.api.generate_guest')
+    )?.data;
+    const token = `Token ${res.message.api_key}:${res.message.api_secret}`;
+    setLoginToken(token);
+  };
+
+  const setToLocalStorageAfterLogin = (token: string) => {
+    localStorage.setItem('Authorization', token);
+  };
+
+  const getUserDetailAfterLogIn = async (token: string) => {
+    const headers = { Authorization: token };
+    const res = await customAxios.get(
+      '/api/method/dipmarts_app.api.userprofile',
+      { headers }
+    );
+    setUserProfile(res?.data?.message);
   };
 
   useEffect(() => {
-    const fetchUserProfile = async () => {
-      const res = await customAxios.get(
-        '/api/method/dipmarts_app.api.userprofile'
-      );
-      setUserProfile(res.data.message);
-      console.log(userProfile);
-    };
-    fetchUserProfile();
+    fetchUserDetail();
+    getGuestUser();
   }, []);
 
+  const fetchUserDetail = async () => {
+    const res = await customAxios.get(
+      '/api/method/dipmarts_app.api.userprofile'
+    );
+    setUserProfile(res?.data?.message);
+  };
+
   const LogoutHandler = () => {
-    Cookies.remove('Authorization');
-    router.reload();
+    localStorage.removeItem('Authorization');
+    setUserProfile({
+      account_id: '',
+      avatar: '',
+      birthday: '',
+      country_code: '',
+      email: '',
+      fullname: '',
+      gender: '',
+      phone_number: '',
+    });
   };
 
   return (
@@ -88,13 +146,14 @@ const ProfilePage = () => {
         >
           <div className="flex">
             {userProfile?.account_id ? (
-              <div className="w-14 h-14">
-                <img
-                  src={userProfile.avatar}
-                  alt={userProfile.account_id}
-                  className="rounded-full"
-                />
-              </div>
+              <Image
+                src={userProfile?.avatar}
+                alt={userProfile?.account_id}
+                height={56}
+                width={56}
+                className="rounded-full"
+                objectFit="cover"
+              />
             ) : (
               <div className="bg-blue-900 p-1 rounded-full">
                 <UserProfile className={'w-12 h-12 text-white'} />
@@ -115,22 +174,18 @@ const ProfilePage = () => {
         </div>
         {/* 4 Order Grid */}
         <div className="mt-8 grid grid-cols-4">
-          <div>
-            <Paper className={'mx-auto'} />
-            <p className="text-center">Orders</p>
-          </div>
-          <div>
-            <HeartIcon className={'w-[30px] h-[30px] mx-auto'} />
-            <p className="text-center">Wish List</p>
-          </div>
-          <div>
-            <Clock className={'w-[30px] h-[30px] mx-auto'} />
-            <p className="text-center">View</p>
-          </div>
-          <div>
-            <Ticket className={'w-[30px] h-[30px] mx-auto'} />
-            <p className="text-center">Coupons</p>
-          </div>
+          <Link href={'/orders'}>
+            <a>
+              <Paper className={'mx-auto'} />
+              <p className="text-center">Orders</p>
+            </a>
+          </Link>
+          <Link href={'/wishlist'}>
+            <a>
+              <HeartIcon className={'w-[30px] h-[30px] mx-auto'} />
+              <p className="text-center">Wish List</p>
+            </a>
+          </Link>
         </div>
         {/* Settings */}
         <div className="px-5 bg-[#EAEAEA] mt-6 ">
@@ -156,13 +211,13 @@ const ProfilePage = () => {
         )}
 
         {/* Logo DiPMart */}
-        <div className="pt-5">
-          <img
-            src="https://www.dipmarts.com/wp-content/themes/dipmarts/assets/images/DiPMart-Horizontal-Logo.png"
+        <div className="pt-5 flex flex-col ">
+          <Image
+            src="https://www.dipmarts.com/wp-content/themes/dipmarts/assets/images/DiPMarts-Horizontal-Logo.png"
             alt="DiPMart Logo"
             width={142}
             height={54}
-            className="mx-auto"
+            objectFit="contain"
           />
           <p className="pt-2 text-xs text-gray-600 text-center">
             Copyright © 2022 DiPMart.
@@ -233,7 +288,7 @@ const ProfilePage = () => {
                   </form>
                 </div>
               ) : (
-                <div className="px-4 mt-5">
+                <form className="px-4 mt-5">
                   <div className="grid grid-rows-3 ">
                     <h1 className="font-bold">Register with Phone Number</h1>
                     <p className="text-xs text-gray-600">
@@ -248,7 +303,7 @@ const ProfilePage = () => {
                   <div className="py-5">
                     <PrimaryButton text={'Countinue'}></PrimaryButton>
                   </div>
-                </div>
+                </form>
               )}
             </div>
           </div>

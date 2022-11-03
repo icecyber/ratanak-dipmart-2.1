@@ -1,7 +1,9 @@
 import { Progress } from '@material-tailwind/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Router, useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { createSecureContext } from 'tls';
 import customAxios from '../../components/axios/axiosHttp';
 import PrimaryButton from '../../components/button/PrimaryButton';
@@ -11,41 +13,82 @@ import EmptyCart from '../../components/icons/EmptyCart';
 import Pin from '../../components/icons/Pin';
 import ShoppingCart from '../../components/icons/ShoppingCart';
 import Layout from '../../components/Layout';
-import PlusPairButton from '../../components/PlusPairButton';
 import ProductItem from '../../components/ProductItem';
-interface CartItem {
+import { decresment, getBadge } from '../../redux/cartSlice';
+
+export interface CartItem {
   id: string;
   selection: Selection[];
   qty: number;
   final_price: number;
-  product: Product;
+  product: PreProduct;
   selection_image: string;
 }
-interface Selection {
+
+interface PreProduct {
+  qty?: number;
+  default_price?: number;
+  dilivery_fee?: number;
+  discount?: number;
+  id?: string;
+  in_wishlist?: boolean;
+  is_top_sell?: string;
+  max_delivery_fee?: number;
+  name?: string;
+  primary_image?: string;
+  stock?: number;
+  stock_type?: string;
+  vat?: number;
+  view_status?: boolean;
+  short_description?: string;
+  product_varraint?: Spec[];
+}
+interface Spec {
+  id: string;
+  name: string;
+  product_varraint_value: SpecInit[];
+}
+interface SpecInit {
+  id: string;
+  value: string;
+  note: string;
+}
+export interface Selection {
   id: string;
   name: string;
   product_varraint_value: ProductVarraintValue;
 }
 
-interface ProductVarraintValue {
+export interface ProductVarraintValue {
   id: string;
   value: string;
   price: number;
   note: string;
 }
 
-interface Product {
+export interface Product {
   id: string;
   name: string;
   primary_image: string;
-  price: number;
+  default_price: number;
 }
 
 const CartPage = () => {
-  // Cart Data
+  const dispatch = useDispatch();
+  const [showMyModal, setShowMyModal] = useState(false);
+  const [capacityValue, setCapacityValue] = useState('');
+  const [colorcode, setColorcode] = useState('');
+  // Cart Dat
   const [cartList, setCartList] = useState<Array<CartItem>>([]);
   const [cartRelate, setCartRelate] = useState([]);
-  const [total, setTotal] = useState();
+  const [items, setItems] = useState<PreProduct>();
+  const router = useRouter();
+  const [colorText, setColorText] = useState('');
+  const [selectedCapacity, setSelectedCapacity] = useState('');
+  const [selectedColor, setSelectedColor] = useState('');
+
+  var total = 0;
+  cartList.map((item) => (total += item.final_price));
 
   // Get Cart
   useEffect(() => {
@@ -63,11 +106,78 @@ const CartPage = () => {
     GetCart();
   }, []);
 
+  const decBadge = useSelector((state: any) => state.cart);
+
   const RemoveCart = (id: string, index: number) => {
     customAxios.post('/api/method/dipmarts_app.api.removecart', {
       id: id,
     });
     setCartList((current) => current.filter((item) => item.id !== id));
+
+    dispatch(decresment(decBadge));
+  };
+
+  const plusHandler = (id: any) => {
+    setShowMyModal(true);
+    const initailValue = id.selection;
+    setItems(id.product);
+    initailValue.map((data: any) => {
+      if (data.name === 'Colour') {
+        setSelectedColor(data.product_varraint_value.id);
+        setColorcode(data.product_varraint_value.value);
+        setColorText(data.product_varraint_value.note);
+      }
+      if (data.name === 'Capacity') {
+        setSelectedCapacity(data.product_varraint_value.id);
+        setCapacityValue(data.product_varraint_value.value);
+      }
+    });
+  };
+
+  const minusHandler = async (product: any) => {
+    const selection = product.selection.map((data: any) => {
+      return data;
+    });
+
+    const selected = selection.map((data: any) => {
+      return data.product_varraint_value.id;
+    });
+
+    const datas = {
+      id: product.id,
+      selection: selected,
+      qty: product.qty - 1,
+      noted: '',
+    };
+
+    const updateItem = await customAxios.post(
+      '/api/method/dipmarts_app.api.updatecart',
+      datas
+    );
+    console.log(updateItem);
+  };
+
+  const selectCapacity = (id: string, value: string) => {
+    setCapacityValue(value);
+    setSelectedCapacity(id);
+  };
+  const selectColor = (id: string, value: string, note: string) => {
+    setColorcode(value);
+    setSelectedColor(id);
+  };
+
+  const IncrementCard = async () => {
+    setShowMyModal(false);
+    const datas = {
+      product_id: items?.id,
+      qty: 1,
+      selection: [selectedColor, selectedCapacity],
+      noted: '',
+    };
+    const request = await customAxios.post(
+      '/api/method/dipmarts_app.api.addtocart',
+      datas
+    );
   };
 
   return (
@@ -173,10 +283,30 @@ const CartPage = () => {
                   </div>
                   {/* End Into */}
                   <div className="flex flex-col justify-between items-end">
-                    <button onClick={() => RemoveCart(product.id, index)}>
+                    <button
+                      onClick={() => RemoveCart(product.id, index)}
+                      name="closeBTN"
+                    >
                       <Close className={'text-blue-900 w-[30px] h-[30px]'} />
                     </button>
-                    <PlusPairButton />
+                    <div className="flex">
+                      <button
+                        className="border border-blue-900 px-2 rounded-lg disabled:opacity-50"
+                        disabled={product.qty === 1}
+                        onClick={() => minusHandler(product)}
+                        name="minusBTN"
+                      >
+                        -
+                      </button>
+                      <h1 className="px-2">{product.qty}</h1>
+                      <button
+                        className="border border-blue-900 px-2 rounded-lg disabled:opacity-50"
+                        onClick={() => plusHandler(product)}
+                        name="plusBTN"
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -200,10 +330,10 @@ const CartPage = () => {
             <div className="grid grid-cols-3 w-full sticky bottom-14 bg-white px-2 py-3 z-50">
               <div>
                 <h3 className="text-sm text-gray-500">Total</h3>
-                <h1 className="text-blue-900 font-bold">$1,199.00</h1>
+                <h1 className="text-blue-900 font-bold">${total}</h1>
               </div>
               <Link href="/cart/address">
-                <button className="col-span-2">
+                <button className="col-span-2" name="checkoutBTN">
                   <PrimaryButton text="Checkout" />
                 </button>
               </Link>
@@ -211,6 +341,136 @@ const CartPage = () => {
           </div>
         </>
       )}
+      {showMyModal ? (
+        <>
+          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none py-10">
+            <div className="max-w-3xl bg-white rounded py-2 w-full absolute bottom-12 animate__animated animate__fadeInUp rounded-t-xl">
+              <div className="bg-white rounded-md max-w-3xl mx-auto px-2">
+                <div className="h-28 relative pb-5 mb-3 border border-gray-100 rounded-md">
+                  <div className="flex pb-5">
+                    <div className="p-2 rounded-lg bg-white">
+                      <Image
+                        className="w-24 h-24 object-contain"
+                        src={items?.primary_image ?? ''}
+                        alt={items?.name}
+                        layout="fill"
+                      />
+                    </div>
+                    <div className="flex flex-col justify-between pl-2 pt-2">
+                      <div>
+                        <h1 className="text-[14px] mb-1">{items?.name}</h1>
+                        <div>
+                          <div className="flex gap-2">
+                            <span className="text-xs">
+                              <span className="opacity-50">Qty: </span>1
+                            </span>
+                            <div className="text-xs opacity-50">
+                              Capacity: {capacityValue}
+                            </div>
+                          </div>
+
+                          <div>
+                            <div className="flex justify-start pt-2">
+                              <button
+                                className={`rounded-full p-2.5 mr-1`}
+                                style={{
+                                  backgroundColor: `${colorcode}`,
+                                }}
+                                name="colorpicking"
+                                disabled
+                              />
+                              <small className="opacity-50">{colorText}</small>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <h1 className=" text-base">$ {items?.default_price}</h1>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setShowMyModal(false)}
+                    className="absolute right-1 top-1 "
+                    name="deletebtn"
+                  >
+                    <Close />
+                  </button>
+                </div>
+                <div className="px-4 py-2">
+                  {items?.product_varraint?.map((data) => (
+                    <div key={data.id}>
+                      <h1 className="font-bold">{data.name}</h1>
+                      <div className="flex">
+                        {data?.product_varraint_value.map((d) => (
+                          <div key={d.id}>
+                            {data.name === 'Capacity' && (
+                              <div
+                                key={d.id}
+                                className={
+                                  d.id === selectedCapacity
+                                    ? 'bg-blue-800 m-1 shadow-md text-xs rounded-lg text-white '
+                                    : 'bg-black bg-opacity-25 m-1 shadow-md text-xs rounded-lg text-black'
+                                }
+                              >
+                                <button
+                                  onClick={() => selectCapacity(d.id, d.value)}
+                                  className={'py-2 px-2'}
+                                  name={data.name}
+                                  id={d.id}
+                                >
+                                  {d.value}
+                                </button>
+                              </div>
+                            )}
+                            {data.name === 'Colour' && (
+                              <div
+                                key={d.id}
+                                className={
+                                  d.id === selectedColor
+                                    ? 'rounded-full p-0.5 flex items-center justify-center border border-blue-700 mr-1'
+                                    : 'rounded-full p-0.5 flex items-center justify-center'
+                                }
+                              >
+                                <button
+                                  onClick={() => {
+                                    selectColor(d.id, d.value, d.note);
+                                  }}
+                                  className={'rounded-full p-4'}
+                                  style={{
+                                    backgroundColor: `${d.value}`,
+                                  }}
+                                  name={data.name}
+                                  id={d.id}
+                                />
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex justify-between px-2 gap-2">
+                  <button
+                    onClick={() => router.push(`/productdetail/${items?.id}`)}
+                    name="productdetail"
+                    className="text-blur-900 text-sm w-36 py-2 border-2 border-blue-900 rounded-xl"
+                  >
+                    Product Detail
+                  </button>
+                  <button
+                    name="confirm"
+                    className="text-white text-sm w-36 py-2 bg-blue-900 rounded-xl"
+                    onClick={IncrementCard}
+                  >
+                    Confirm
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="fixed inset-0 z-10 bg-black bg-opacity-50"></div>
+        </>
+      ) : null}
     </Layout>
   );
 };

@@ -32,14 +32,14 @@ a {
 } */
 /* Layout */
 .main-layout {
-  @apply m-auto  py-2;
+  @apply m-auto  py-2 flex flex-col justify-between;
 }
 /* MySwiper */
 .mySwiper {
-  @apply w-full mt-4;
+  @apply w-[341px] h-[170px] md:w-full md:h-[500px] mt-4;
 }
 .banner-img {
-  @apply w-full  rounded-lg;
+  @apply rounded-lg;
 }
 
 /* Navbar */
@@ -66,7 +66,7 @@ a {
 
 /* Footer */
 .footer {
-  @apply grid grid-cols-5 gap-5  fixed w-full bottom-0 mx-auto bg-white shadow-inner z-10;
+  @apply flex gap-5 min-w-full sticky  bottom-0 mx-auto bg-white shadow-inner z-10;
 }
 .nav-items {
   @apply mx-auto py-4;

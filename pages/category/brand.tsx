@@ -26,7 +26,6 @@ const Brand = () => {
 
   const clickHandle = (name: string) => {
     setBrandName(name);
-    console.log(name);
   };
 
   useEffect(() => {

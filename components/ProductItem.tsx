@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { increment } from '../redux/cartSlice';
 import customAxios from './axios/axiosHttp';
 import HeartIcon from './icons/HeartIcon';
 import Plus from './icons/Plus';
@@ -8,6 +10,7 @@ import Plus from './icons/Plus';
 const ProductItem = ({ product }: any) => {
   const [isWishList, setIsWishList] = useState(product.in_wishlist);
   const data = { product_id: product.id };
+  const dispatch = useDispatch();
 
   // Add To Cart Body
   const AddCartBody = {
@@ -27,7 +30,10 @@ const ProductItem = ({ product }: any) => {
     setIsWishList(true);
   };
 
+  const badge = useSelector((state: any) => state.cart.badge);
+
   const AddToCart = () => {
+    dispatch(increment());
     customAxios.post('/api/method/dipmarts_app.api.addtocart', AddCartBody);
   };
 
@@ -44,6 +50,7 @@ const ProductItem = ({ product }: any) => {
             className={
               'p-1 bg-gray-200 rounded-full shadow-xl absolute right-2 top-2 z-10'
             }
+            name="wishlistfalse"
             onClick={falseHandler}
           >
             <HeartIcon
@@ -53,6 +60,7 @@ const ProductItem = ({ product }: any) => {
           </button>
         ) : (
           <button
+            name="wishlisttrue"
             type="button"
             className={
               'p-1 bg-gray-200 rounded-full shadow-xl absolute right-2 top-2 z-10'
@@ -94,6 +102,7 @@ const ProductItem = ({ product }: any) => {
       <button
         className="p-1 bg-white rounded-full shadow-xl absolute right-2 bottom-2"
         onClick={AddToCart}
+        name="addWishList"
       >
         <Plus className={'w-[20px] h-[20px] text-blue-800 font-bold'} />
       </button>

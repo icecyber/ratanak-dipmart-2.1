@@ -1,6 +1,8 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getBadge, initialBadge } from '../redux/cartSlice';
 import customAxios from './axios/axiosHttp';
 import HeartIcon from './icons/HeartIcon';
 import HomeIcon from './icons/HomeIcon';
@@ -17,20 +19,26 @@ interface Layout {
 }
 
 const Layout = ({ title, children }: Layout) => {
-  const [cartBadge, setCartBadge] = useState('');
+  const cart = useSelector((state: any) => state.cart);
 
+  const dispatch = useDispatch();
   useEffect(() => {
-    const fetchCart = async () => {
+    const fetchBadge = async () => {
       const res = await customAxios.get(
         '/api/method/dipmarts_app.api.cartlist'
       );
-      setCartBadge(res.data.message.length);
+      const qty = res.data.message.reduce(
+        (prev: any, current: any) => prev + current.qty,
+        0
+      );
+
+      dispatch(initialBadge(qty));
     };
-    fetchCart();
-  }, [cartBadge]);
+    fetchBadge();
+  }, []);
 
   return (
-    <>
+    <div className="main-layout h-screen">
       <Head>
         <title>
           {title === 'DipMarts'
@@ -47,9 +55,9 @@ const Layout = ({ title, children }: Layout) => {
       </Head>
       {/* Navbar */}
       {title === 'DipMarts' ? <TopNav /> : <TopNavCategory title={title} />}
-      <div className="main-layout h-screen">
-        <main className="container mx-auto">{children}</main>
-      </div>
+
+      <main className="container mx-auto mb-auto">{children}</main>
+
       <footer className="footer">
         <Link href="/">
           <a className="nav-items">
@@ -64,9 +72,11 @@ const Layout = ({ title, children }: Layout) => {
         <Link href="/cart">
           <a className="nav-items relative">
             <ShoppingCart className="nav-icons" />
-            <div className="absolute top-2 -right-1 w-4 h-4 flex items-center justify-center text-[10px] bg-red-800 text-white font-bold p-1 rounded-full ">
-              {cartBadge}
-            </div>
+            {cart ? (
+              <div className="absolute top-2 -right-1 w-4 h-4 flex items-center justify-center text-[10px] bg-red-800 text-white font-bold p-1 rounded-full ">
+                {cart.badge}
+              </div>
+            ) : null}
           </a>
         </Link>
         <Link href="/wishlist">
@@ -80,7 +90,7 @@ const Layout = ({ title, children }: Layout) => {
           </a>
         </Link>
       </footer>
-    </>
+    </div>
   );
 };
 

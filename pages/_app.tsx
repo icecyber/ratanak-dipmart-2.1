@@ -3,6 +3,8 @@ import type { AppProps } from 'next/app';
 import { useEffect } from 'react';
 import customAxios, { getHeader } from '../components/axios/axiosHttp';
 import Cookies from 'js-cookie';
+import store from '../redux/store';
+import { Provider } from 'react-redux';
 
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
@@ -24,7 +26,11 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
   }, []);
 
-  return <Component {...pageProps} />;
+  return (
+    <Provider store={store}>
+      <Component {...pageProps} />
+    </Provider>
+  );
 }
 
 export default MyApp;

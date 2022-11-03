@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import Image from 'next/image';
 import React, { MouseEventHandler, useEffect, useState } from 'react';
 import customAxios from '../../components/axios/axiosHttp';

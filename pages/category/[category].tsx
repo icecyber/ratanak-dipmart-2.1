@@ -9,7 +9,6 @@ const ShopByBrand = () => {
 
   const router = useRouter();
   const route = router.query.category;
-  console.log(router.query);
 
   useEffect(() => {
     const FetchData = async () => {

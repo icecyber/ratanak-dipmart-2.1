@@ -1,10 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import customAxios from '../../components/axios/axiosHttp';
 
 const initialState = {
   loading: false,
   userInfo: {},
   userToken: null,
-  error: null,
+  error: false,
   success: false,
 };
 
@@ -12,7 +13,6 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {},
-  extraReducers: {},
 });
 
-export default userSlice.reducer;
+export default userSlice;

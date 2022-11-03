@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import customAxios from '../components/axios/axiosHttp';
 import Banner from '../components/Banner';
 import ThreeDots from '../components/icons/ThreeDots';
@@ -75,7 +75,7 @@ const Home: NextPage = () => {
         {/* Brand List */}
         <div className="brand-layout">
           {brand?.slice(0, 7).map((data: ShopByBrand) => (
-            <Link href={`/brand/${data.name}`} key={data.id}>
+            <Link href={`/brand/${data.name}`} key={data.id} passHref>
               <a className="brand-layout-item">
                 <Image
                   src={data.logo}
@@ -83,7 +83,6 @@ const Home: NextPage = () => {
                   width={150}
                   height={50}
                   objectFit="contain"
-                  className=""
                   layout="responsive"
                 ></Image>
                 <h3 className="text-center text-xs">{data.name}</h3>

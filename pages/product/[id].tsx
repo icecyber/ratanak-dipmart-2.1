@@ -1,19 +1,14 @@
-/* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from 'react';
 import customAxios from '../../components/axios/axiosHttp';
 import TopNavCategory from '../../components/navbar/TopNavCategory';
-import PlusPairButton from '../../components/PlusPairButton';
 import {
   Accordion,
   AccordionHeader,
   AccordionBody,
-  Input,
 } from '@material-tailwind/react';
 import HeartIcon from '../../components/icons/HeartIcon';
 import { useRouter } from 'next/router';
-import PrimaryButton from '../../components/button/PrimaryButton';
-import Link from 'next/link';
-import Cookies from 'js-cookie';
+import Image from 'next/image';
 
 interface ProductDetail {
   id: string;
@@ -85,42 +80,7 @@ const ProductDetail = () => {
   const data = { product_id: productDetail?.id };
   const [isModal, setIsModal] = useState(false);
   const [switchPage, setSwitchPage] = useState('login');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const finalUsername = username.substring(1);
-
-  const LoginHandler = async (e: any) => {
-    e.preventDefault();
-    const res = await customAxios.post('/api/method/dipmarts_app.api.login', {
-      username: `+855${finalUsername}`,
-      password: password,
-    });
-    const api_key = res.data.message.api_key;
-    const api_secret = res.data.message.api_secret;
-    const Authorization = `Token ${api_key}:${api_secret}`;
-    Cookies.set('Authorization', Authorization, { expires: 1 / 24 });
-  };
-
-  // Add To Cart Body
-  const AddCartBody = {
-    product_id: productDetail?.id,
-    selection:
-      CapId === '' || colorId === ''
-        ? productDetail?.pre_spec.spec
-        : [CapId, colorId],
-    qty: 1,
-    noted: '',
-  };
-  console.log(productDetail?.pre_spec.spec);
-
-  // Add to Cart
-
-  const AddTOCart = async () => {
-    const req = await customAxios.post(
-      '/api/method/dipmarts_app.api.addtocart',
-      AddCartBody
-    );
-  };
+  const [qty, setQty] = useState(1);
 
   useEffect(() => {
     if (router.isReady) {
@@ -132,6 +92,16 @@ const ProductDetail = () => {
         const data = res.data.message;
         setProductDetail(data);
         setIsWishlist(res.data.message.in_wishlist);
+
+        const value: [] = res.data.message.product_varraint;
+        value?.map((data: any) => {
+          if (data.name === 'Colour') {
+            setColorID(data.product_varraint_value[0].id);
+          }
+          if (data.name === 'Capacity') {
+            setCapId(data.product_varraint_value[0].id);
+          }
+        });
       };
       FetchData();
     }
@@ -143,12 +113,27 @@ const ProductDetail = () => {
         '/api/method/dipmarts_app.api.userprofile'
       );
       setUserProfile(res.data.message);
-      console.log(userProfile);
     };
     fetchUserProfile();
   }, []);
 
-  console.log(userProfile);
+  const AddTOCart = async () => {
+    // Add To Cart Body
+    const AddCartBody = {
+      product_id: productDetail?.id,
+      selection:
+        CapId === '' || colorId === ''
+          ? productDetail?.pre_spec.spec
+          : [CapId, colorId],
+      qty: qty,
+      noted: '',
+    };
+
+    const req = await customAxios.post(
+      '/api/method/dipmarts_app.api.addtocart',
+      AddCartBody
+    );
+  };
 
   const handleOpen = (index: number) => {
     setOpen(open === index ? -1 : index);
@@ -181,12 +166,18 @@ const ProductDetail = () => {
     );
   }
 
-  const CapSelectHandler = (id: string, name: string) => {
-    if (name === 'Colour') {
-      setColorID(id);
-    } else if (name === 'Capacity') {
-      setCapId(id);
-    }
+  const CapSelectHandler = (id: string) => {
+    setCapId(id);
+  };
+  const ColorSelectHandler = (id: string) => {
+    setColorID(id);
+  };
+
+  const plusHandler = () => {
+    setQty((prev) => prev + 1);
+  };
+  const minusHandler = () => {
+    setQty((prev) => prev - 1);
   };
 
   if (router.isReady === true) {
@@ -195,13 +186,14 @@ const ProductDetail = () => {
         <TopNavCategory title="Product" />
         {productDetail && (
           <>
-            <div className="bg-gray-400">
-              <img
+            <div className="mt-4 bg-white w-80 h-60 relative mx-auto">
+              <Image
                 src={productDetail?.primary_image}
                 alt="Product Item"
-                width="100%"
-                height="100%"
+                layout="fill"
+                objectFit="contain"
                 className="mt-3 md:w-1/2 md:mx-auto"
+                priority
               />
             </div>
             <div className="px-4 pt-4 grid gap-2">
@@ -212,7 +204,23 @@ const ProductDetail = () => {
                 <h1 className="text-lg font-bold text-blue-800">
                   $ {productDetail?.default_price}
                 </h1>
-                <PlusPairButton />
+                <div className="flex">
+                  <button
+                    className="border border-blue-900 px-2 rounded-lg disabled:opacity-50"
+                    onClick={minusHandler}
+                    disabled={qty === 1 ? true : false}
+                  >
+                    -
+                  </button>
+                  <h1 className="px-2">{qty}</h1>
+                  <button
+                    className="border border-blue-900 px-2 rounded-lg disabled:opacity-50"
+                    onClick={plusHandler}
+                    disabled={qty === productDetail.stock ? true : false}
+                  >
+                    +
+                  </button>
+                </div>
               </div>
               {/* Stock */}
               <div className="text-lg flex">
@@ -222,6 +230,7 @@ const ProductDetail = () => {
                 </p>{' '}
                 &nbsp; Products in Stock
               </div>
+
               {productDetail?.product_varraint.map(
                 (varraint: ProductVarraint, index: number) => (
                   <div key={index}>
@@ -229,36 +238,44 @@ const ProductDetail = () => {
                     <div className="flex mt-2">
                       {varraint.product_varraint_value.map(
                         (value: ProductVarraintValue) => (
-                          <button
-                            key={value.id}
-                            className={`py-1 px-2 ${
-                              value.id === CapId ? 'bg-blue-800' : 'bg-gray-500'
-                            } rounded-lg text-white mr-2`}
-                            type="button"
-                            onClick={() =>
-                              CapSelectHandler(value.id, varraint.name)
-                            }
-                            style={
-                              varraint.name === 'Colour'
-                                ? {
-                                    backgroundColor: `${value.value}`,
-                                    border: '1px solid gray',
-                                    color: 'black',
-                                    width: '30px',
-                                    height: '30px',
-                                    borderRadius: '100%',
-                                  }
-                                : {}
-                            }
-                          >
-                            {varraint.name === 'Colour' ? null : value.value}
-                          </button>
+                          <div key={value.id}>
+                            {varraint.name === 'Capacity' && (
+                              <div className={`mr-2`}>
+                                <button
+                                  onClick={() => CapSelectHandler(value.id)}
+                                  className={`px-2 py-1 ${
+                                    CapId === value.id
+                                      ? 'bg-blue-800'
+                                      : 'bg-gray-600'
+                                  } rounded-lg text-white `}
+                                >
+                                  {value.note}
+                                </button>
+                              </div>
+                            )}
+                            {varraint.name === 'Colour' && (
+                              <div
+                                className={`mr-2 ${
+                                  colorId === value.id
+                                    ? 'border border-blue-900 p-0.5 rounded-full flex justify-center items-center'
+                                    : ''
+                                }`}
+                              >
+                                <button
+                                  onClick={() => ColorSelectHandler(value.id)}
+                                  className="p-4 rounded-full"
+                                  style={{ backgroundColor: `${value.value}` }}
+                                ></button>
+                              </div>
+                            )}
+                          </div>
                         )
                       )}
                     </div>
                   </div>
                 )
               )}
+
               {/* Product Description */}
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. A morbi
@@ -294,14 +311,14 @@ const ProductDetail = () => {
                         (feature: ProductFeature) => (
                           <div
                             key={feature.id}
-                            className="bg-gray-300 rounded-lg w-[70%] py-3 mx-auto"
+                            className="bg-gray-300 rounded-lg w-[70%] py-3 mx-auto flex flex-col"
                           >
-                            <img
+                            <Image
                               src={feature.image_path}
                               alt={feature.name}
-                              width="30"
-                              height="auto"
-                              className="mx-auto"
+                              width={30}
+                              height={30}
+                              objectFit="contain"
                             />
                             <h1 className="text-center font-bold pt-1">
                               {feature.name}
@@ -351,87 +368,6 @@ const ProductDetail = () => {
             </div>
           </>
         )}
-        {/* Login Screen */}
-        {isModal ? (
-          <>
-            <div
-              className="bg-black bg-transparent bg-opacity-50 w-full absolute top-0 h-[100%]"
-              onClick={() => setIsModal(!true)}
-            ></div>
-            <div>
-              <div className=" bg-white rounded-t-2xl  absolute bottom-0 w-full z-50">
-                <div className="grid grid-cols-2 border-b-2">
-                  <div
-                    className={
-                      switchPage === 'signup'
-                        ? 'text-base py-3 text-center border-b-2 border-b-blue-800'
-                        : 'text-base py-3 text-center'
-                    }
-                    onClick={() => setSwitchPage('signup')}
-                  >
-                    Sign Up
-                  </div>
-                  <div
-                    className={
-                      switchPage === 'login'
-                        ? 'text-base py-3 text-center border-b-2 border-b-blue-800'
-                        : 'text-base py-3 text-center'
-                    }
-                    onClick={() => setSwitchPage('login')}
-                  >
-                    Login
-                  </div>
-                </div>
-                {switchPage === 'login' ? (
-                  <div className="px-4 mt-5">
-                    <form onSubmit={LoginHandler}>
-                      <div className="grid grid-rows-2 gap-5">
-                        <Input
-                          label="(+855) Phone Number*"
-                          type={'number'}
-                          required
-                          onChange={(e) => setUsername(e.target.value)}
-                        />
-                        <Input
-                          label="Password"
-                          required
-                          onChange={(e) => setPassword(e.target.value)}
-                        />
-                      </div>
-                      <div className="mt-14 pb-6">
-                        <Link href="/">
-                          <a className="line-through text-sm text-blue-500 ">
-                            Forgot password?
-                          </a>
-                        </Link>
-                      </div>
-                      <button className="pb-5 w-full" type="submit">
-                        <PrimaryButton text={'Login'}></PrimaryButton>
-                      </button>
-                    </form>
-                  </div>
-                ) : (
-                  <div className="px-4 mt-5">
-                    <div className="grid grid-rows-3 ">
-                      <h1 className="font-bold">Register with Phone Number</h1>
-                      <p className="text-xs text-gray-600">
-                        Please enter your phone number to continue
-                      </p>
-                      <Input
-                        label="(+855) Phone Number"
-                        type={'number'}
-                        required
-                      />
-                    </div>
-                    <div className="py-5">
-                      <PrimaryButton text={'Countinue'}></PrimaryButton>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </>
-        ) : null}
       </div>
     );
   } else {
