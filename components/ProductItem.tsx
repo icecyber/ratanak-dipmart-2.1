@@ -30,10 +30,8 @@ const ProductItem = ({ product }: any) => {
     setIsWishList(true);
   };
 
-  const badge = useSelector((state: any) => state.cart.badge);
-
   const AddToCart = () => {
-    dispatch(increment());
+    dispatch(increment(1));
     customAxios.post('/api/method/dipmarts_app.api.addtocart', AddCartBody);
   };
 
