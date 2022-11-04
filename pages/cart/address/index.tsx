@@ -110,7 +110,7 @@ const AddressPage = () => {
               </div>
             </div>
           ))}
-          {getAddress.length === 0 ? (
+          {!getAddress ? (
             <div className="px-4 mb-4">
               <div className="py-20">
                 <EmptyAddress className={'mx-auto'} />

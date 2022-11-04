@@ -5,6 +5,7 @@ import { Router, useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createSecureContext } from 'tls';
+import AuthForm from '../../components/AuthForm';
 import customAxios from '../../components/axios/axiosHttp';
 import PrimaryButton from '../../components/button/PrimaryButton';
 import Close from '../../components/icons/Close';
@@ -78,7 +79,7 @@ const CartPage = () => {
   const [showMyModal, setShowMyModal] = useState(false);
   const [capacityValue, setCapacityValue] = useState('');
   const [colorcode, setColorcode] = useState('');
-  // Cart Dat
+  // Cart Data
   const [cartList, setCartList] = useState<Array<CartItem>>([]);
   const [cartRelate, setCartRelate] = useState([]);
   const [items, setItems] = useState<PreProduct>();
@@ -86,6 +87,9 @@ const CartPage = () => {
   const [colorText, setColorText] = useState('');
   const [selectedCapacity, setSelectedCapacity] = useState('');
   const [selectedColor, setSelectedColor] = useState('');
+  const [isUserModal, setIsUserModal] = useState(false);
+
+  // Check No scroll
 
   var total = 0;
   cartList.map((item) => (total += item.final_price));
@@ -108,7 +112,7 @@ const CartPage = () => {
 
   const decBadge = useSelector((state: any) => state.cart);
 
-  const RemoveCart = (id: string, qty: number, index: number) => {
+  const removeCart = (id: string, qty: number, index: number) => {
     customAxios.post('/api/method/dipmarts_app.api.removecart', {
       id: id,
     });
@@ -180,6 +184,20 @@ const CartPage = () => {
     );
   };
 
+  const checkOutHandler = () => {
+    const userAuth = localStorage.getItem('Authorization');
+    if (!userAuth) {
+      setIsUserModal(true);
+      document.body.style.overflow = 'hidden';
+    } else {
+      router.push('/cart/address');
+    }
+  };
+
+  const closeForm = () => {
+    setIsUserModal(false);
+    document.body.style.overflow = 'auto';
+  };
   return (
     <Layout title="My Cart">
       {/* Empty Cart */}
@@ -284,7 +302,7 @@ const CartPage = () => {
                   {/* End Into */}
                   <div className="flex flex-col justify-between items-end">
                     <button
-                      onClick={() => RemoveCart(product.id, product.qty, index)}
+                      onClick={() => removeCart(product.id, product.qty, index)}
                       name="closeBTN"
                     >
                       <Close className={'text-blue-900 w-[30px] h-[30px]'} />
@@ -332,11 +350,14 @@ const CartPage = () => {
                 <h3 className="text-sm text-gray-500">Total</h3>
                 <h1 className="text-blue-900 font-bold">${total}</h1>
               </div>
-              <Link href="/cart/address">
-                <button className="col-span-2" name="checkoutBTN">
-                  <PrimaryButton text="Checkout" />
-                </button>
-              </Link>
+              <button
+                className="col-span-2"
+                name="checkoutBTN"
+                type="button"
+                onClick={checkOutHandler}
+              >
+                <PrimaryButton text="Checkout" />
+              </button>
             </div>
           </div>
         </>
@@ -347,13 +368,14 @@ const CartPage = () => {
             <div className="max-w-3xl bg-white rounded py-2 w-full absolute bottom-12 animate__animated animate__fadeInUp rounded-t-xl">
               <div className="bg-white rounded-md max-w-3xl mx-auto px-2">
                 <div className="h-28 relative pb-5 mb-3 border border-gray-100 rounded-md">
-                  <div className="flex pb-5">
-                    <div className="p-2 rounded-lg bg-white">
+                  <div className="flex pb-5 ">
+                    <div className="p-2 rounded-lg bg-white ">
                       <Image
-                        className="w-24 h-24 object-contain"
+                        width={94}
+                        height={90}
+                        objectFit="cover"
                         src={items?.primary_image ?? ''}
                         alt={items?.name}
-                        layout="fill"
                       />
                     </div>
                     <div className="flex flex-col justify-between pl-2 pt-2">
@@ -471,6 +493,7 @@ const CartPage = () => {
           <div className="fixed inset-0 z-10 bg-black bg-opacity-50"></div>
         </>
       ) : null}
+      {isUserModal ? <AuthForm closeForm={closeForm} /> : null}
     </Layout>
   );
 };

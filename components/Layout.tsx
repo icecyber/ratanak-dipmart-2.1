@@ -38,7 +38,7 @@ const Layout = ({ title, children }: Layout) => {
   }, []);
 
   return (
-    <div className="main-layout h-screen">
+    <div className="main-layout h-screen relative">
       <Head>
         <title>
           {title === 'DipMarts'
