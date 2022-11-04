@@ -64,7 +64,7 @@ const ProfilePage = () => {
       password: password,
     };
     const baseURL = 'https://dev.dipmarts.com';
-    const loginRes = await axios.post(
+    const loginRes = await customAxios.post(
       '/api/method/dipmarts_app.api.login',
       loginData,
       {
@@ -74,17 +74,16 @@ const ProfilePage = () => {
     );
     console.log(loginRes);
 
-    if (loginRes?.data?.response?.status === 404) {
+    if (loginRes?.status === 404) {
       setWrongUser(true);
       return;
     }
-
-    console.log(wrongUser);
 
     const tokenAfterLogin = `Token ${loginRes?.data?.message.api_key}:${loginRes?.data?.message.api_secret}`;
     setToLocalStorageAfterLogin(tokenAfterLogin);
     getUserDetailAfterLogIn(tokenAfterLogin);
     setIsModal(false);
+    setWrongUser(false);
   };
 
   const getGuestUser = async () => {
@@ -267,12 +266,14 @@ const ProfilePage = () => {
                         type={'number'}
                         onChange={(e) => setUsername(e.target.value)}
                         error={wrongUser}
+                        onClick={() => setWrongUser(false)}
                       />
                       <Input
                         label="Password"
                         onChange={(e) => setPassword(e.target.value)}
                         type="password"
                         error={wrongUser}
+                        onClick={() => setWrongUser(false)}
                       />
                     </div>
                     <div className="mt-14 pb-6">

@@ -72,7 +72,7 @@ const Layout = ({ title, children }: Layout) => {
         <Link href="/cart">
           <a className="nav-items relative">
             <ShoppingCart className="nav-icons" />
-            {cart ? (
+            {cart.badge > 0 ? (
               <div className="absolute top-2 -right-1 w-4 h-4 flex items-center justify-center text-[10px] bg-red-800 text-white font-bold p-1 rounded-full ">
                 {cart.badge}
               </div>

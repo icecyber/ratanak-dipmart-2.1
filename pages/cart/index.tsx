@@ -108,13 +108,13 @@ const CartPage = () => {
 
   const decBadge = useSelector((state: any) => state.cart);
 
-  const RemoveCart = (id: string, index: number) => {
+  const RemoveCart = (id: string, qty: number, index: number) => {
     customAxios.post('/api/method/dipmarts_app.api.removecart', {
       id: id,
     });
     setCartList((current) => current.filter((item) => item.id !== id));
 
-    dispatch(decresment(decBadge));
+    dispatch(decresment(qty));
   };
 
   const plusHandler = (id: any) => {
@@ -246,9 +246,8 @@ const CartPage = () => {
                       <div className="text-gray-500">
                         Qty: <span className="text-black">{product.qty}</span>
                       </div>
-                      {product.selection
-                        .slice(0, 1)
-                        .map((selection: Selection) => (
+                      {product.selection.map((selection: Selection) =>
+                        selection.name === 'Capacity' ? (
                           <div
                             className="text-gray-500 ml-1"
                             key={selection.id}
@@ -258,12 +257,12 @@ const CartPage = () => {
                               {selection.product_varraint_value.value}
                             </span>
                           </div>
-                        ))}
+                        ) : null
+                      )}
                     </div>
                     {}
-                    {product.selection
-                      .slice(1, 2)
-                      .map((selection: Selection) => (
+                    {product.selection.map((selection: Selection) =>
+                      selection.name === 'Colour' ? (
                         <div
                           className="text-gray-500 flex items-center"
                           key={selection.id}
@@ -278,13 +277,14 @@ const CartPage = () => {
                             {selection.product_varraint_value.note}
                           </h1>
                         </div>
-                      ))}
+                      ) : null
+                    )}
                     <div>$ {product.final_price}</div>
                   </div>
                   {/* End Into */}
                   <div className="flex flex-col justify-between items-end">
                     <button
-                      onClick={() => RemoveCart(product.id, index)}
+                      onClick={() => RemoveCart(product.id, product.qty, index)}
                       name="closeBTN"
                     >
                       <Close className={'text-blue-900 w-[30px] h-[30px]'} />

@@ -25,7 +25,7 @@ customAxios.interceptors.response.use(
   (error) => {
     if (error.response.status) {
       ErrorAlert(error.message, true);
-      return error;
+      return error?.response;
     }
   }
 );

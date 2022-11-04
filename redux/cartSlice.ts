@@ -33,7 +33,7 @@ const cartSlice = createSlice({
       state.badge = action.payload;
     },
     decresment: (state, action) => {
-      action.payload = state.badge--;
+      state.badge -= action.payload;
     },
   },
   extraReducers: (builder) => {
