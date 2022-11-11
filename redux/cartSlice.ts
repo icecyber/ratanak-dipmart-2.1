@@ -8,14 +8,14 @@ export const getBadge = createAsyncThunk('cart/getBadge', async () => {
     .then((response) => response.data);
 });
 
-interface state {
+export interface State {
   cartList: [];
   badge: number;
   isLoading: boolean;
   isSuccess: boolean;
 }
 
-const initialState: state = {
+const initialState: State = {
   cartList: [],
   badge: 0,
   isLoading: false,

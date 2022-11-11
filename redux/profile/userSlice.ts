@@ -1,9 +1,17 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import customAxios from '../../components/axios/axiosHttp';
+import { UserProfileInterface } from '../../pages/profile';
 
-const initialState = {
+export interface InitialState {
+  loading: boolean;
+  userInfo: [];
+  userToken: null;
+  error: boolean;
+  success: boolean;
+}
+
+const initialState: InitialState = {
   loading: false,
-  userInfo: {},
+  userInfo: [],
   userToken: null,
   error: false,
   success: false,
@@ -12,7 +20,12 @@ const initialState = {
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    addUser: (state, action) => {
+      state.userInfo = action.payload;
+    },
+  },
 });
 
 export default userSlice;
+export const { addUser } = userSlice.actions;

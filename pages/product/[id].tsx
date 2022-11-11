@@ -9,6 +9,9 @@ import {
 import HeartIcon from '../../components/icons/HeartIcon';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import AuthForm from '../../components/AuthForm';
+import { useDispatch } from 'react-redux';
+import { increment } from '../../redux/cartSlice';
 
 interface ProductDetail {
   id: string;
@@ -78,9 +81,9 @@ const ProductDetail = () => {
   const [colorId, setColorID] = useState('');
   const [userProfile, setUserProfile] = useState<Username>();
   const data = { product_id: productDetail?.id };
-  const [isModal, setIsModal] = useState(false);
-  const [switchPage, setSwitchPage] = useState('login');
   const [qty, setQty] = useState(1);
+  const [isUserModal, setIsUserModal] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (router.isReady) {
@@ -133,6 +136,7 @@ const ProductDetail = () => {
       '/api/method/dipmarts_app.api.addtocart',
       AddCartBody
     );
+    dispatch(increment(1));
   };
 
   const handleOpen = (index: number) => {
@@ -180,10 +184,23 @@ const ProductDetail = () => {
     setQty((prev) => prev - 1);
   };
 
+  const buyNowHandler = () => {
+    const userAuth = localStorage.getItem('Authorization');
+    if (!userAuth) {
+      setIsUserModal(true);
+    } else {
+      router.push('/cart/address');
+    }
+  };
+
+  const closePopUp = () => {
+    setIsUserModal(false);
+  };
+
   if (router.isReady === true) {
     return (
-      <div>
-        <TopNavCategory title="Product" />
+      <>
+        <TopNavCategory title={`${router.query.id}`} />
         {productDetail && (
           <>
             <div className="mt-4 bg-white w-80 h-60 relative mx-auto">
@@ -361,14 +378,15 @@ const ProductDetail = () => {
               </button>
               <button
                 className="border-2 bg-blue-900 text-white rounded-md font-bold p-3 md:px-10"
-                onClick={() => setIsModal(!false)}
+                onClick={buyNowHandler}
               >
                 Buy Now
               </button>
             </div>
           </>
         )}
-      </div>
+        {isUserModal ? <AuthForm closeForm={closePopUp} /> : null}
+      </>
     );
   } else {
     return <div>Loading</div>;

@@ -11,8 +11,11 @@ import Link from 'next/link';
 import customAxios from '../../components/axios/axiosHttp';
 import axios from 'axios';
 import Image from 'next/image';
+import { useDispatch } from 'react-redux';
+import { addUser } from '../../redux/profile/userSlice';
+import router from 'next/router';
 
-interface userProfile {
+export interface UserProfileInterface {
   account_id: string;
   avatar: string;
   birthday: string;
@@ -26,12 +29,13 @@ interface userProfile {
 const ProfilePage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [userProfile, setUserProfile] = useState<userProfile>();
+  const [userProfile, setUserProfile] = useState<UserProfileInterface>();
   const [switchPage, setSwitchPage] = useState('login');
   const [isModal, setIsModal] = useState(false);
   const finalUsername = username.substring(1);
   const [wrongUser, setWrongUser] = useState(false);
   const [loginToken, setLoginToken] = useState('');
+  const dispatch = useDispatch();
 
   const LoginHandler = async (e: any) => {
     e.preventDefault();
@@ -107,16 +111,13 @@ const ProfilePage = () => {
     setUserProfile(res?.data?.message);
   };
 
-  useEffect(() => {
-    fetchUserDetail();
-    getGuestUser();
-  }, []);
-
   const fetchUserDetail = async () => {
     const res = await customAxios.get(
       '/api/method/dipmarts_app.api.userprofile'
     );
     setUserProfile(res?.data?.message);
+
+    dispatch(addUser(res?.data?.message));
   };
 
   const LogoutHandler = () => {
@@ -133,6 +134,15 @@ const ProfilePage = () => {
     });
   };
 
+  useEffect(() => {
+    fetchUserDetail();
+    getGuestUser();
+  }, []);
+
+  const editProfileHandler = () => {
+    router.push('/profile/editprofile');
+  };
+
   return (
     <Layout
       title={userProfile?.account_id ? 'My Account' : 'You logged in as guest'}
@@ -141,7 +151,7 @@ const ProfilePage = () => {
         {/* Login Start Shopping */}
         <div
           className="flex justify-between items-center pl-9 pr-5 mt-10 relative"
-          onClick={() => setIsModal(!false)}
+          onClick={editProfileHandler}
         >
           <div className="flex">
             {userProfile?.account_id ? (
