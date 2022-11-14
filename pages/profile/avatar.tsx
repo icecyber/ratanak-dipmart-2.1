@@ -11,7 +11,7 @@ const Avatar = () => {
   const userInfo = useSelector((state: any) => state.user.userInfo);
   const [preview, setPreview] = useState<string>(userInfo?.avatar);
   const [userAvatar, setUserAvatar] = useState();
-  const fileInputRef = useRef<HTMLInputElement>();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (userAvatar) {
