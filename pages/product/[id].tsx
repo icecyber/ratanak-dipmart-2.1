@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import customAxios from '../../components/axios/axiosHttp';
 import TopNavCategory from '../../components/navbar/TopNavCategory';

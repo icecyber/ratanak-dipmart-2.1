@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Input } from '@material-tailwind/react';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';

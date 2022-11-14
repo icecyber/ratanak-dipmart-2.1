@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import PrimaryButton from '../../components/button/PrimaryButton';
 import ChevronRight from '../../components/icons/ChevronRight';
