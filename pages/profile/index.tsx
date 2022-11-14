@@ -140,7 +140,11 @@ const ProfilePage = () => {
   }, []);
 
   const editProfileHandler = () => {
-    router.push('/profile/editprofile');
+    if (!localStorage.getItem('Authorization')) {
+      setIsModal(true);
+    } else {
+      router.push('/profile/editprofile');
+    }
   };
 
   return (
@@ -227,6 +231,7 @@ const ProfilePage = () => {
             width={142}
             height={54}
             objectFit="contain"
+            priority
           />
           <p className="pt-2 text-xs text-gray-600 text-center">
             Copyright © 2022 DiPMart.

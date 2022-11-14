@@ -38,7 +38,7 @@ const Avatar = () => {
 
     const formData: any = new FormData(form);
     formData.append('file', preview);
-    formData.append('username', '+855968888418');
+    formData.append('username', userInfo.fullname);
     console.log([...formData]);
 
     customAxios
@@ -59,7 +59,7 @@ const Avatar = () => {
       <div className=" px-5">
         <div className="w-full flex justify-center mt-10">
           <form className="w-full" onSubmit={saveHandler} id="form">
-            <div className="relative flex justify-center">
+            <div className="relative flex justify-center ">
               <button
                 onClick={(event) => {
                   event.preventDefault();
@@ -90,6 +90,17 @@ const Avatar = () => {
                 />
               </div>
             </div>
+            <label htmlFor="disabled-input" className="text-sm">
+              Username
+            </label>
+            <input
+              type="text"
+              id="disabled-input"
+              aria-label="disabled input"
+              className="mb-6 mt-2 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              value={userInfo.fullname}
+              disabled
+            />
             <button
               type="submit"
               className="mt-52 bg-blue-900 w-full py-3  rounded-xl text-white font-bold"
