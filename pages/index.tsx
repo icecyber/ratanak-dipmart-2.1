@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import customAxios from '../components/axios/axiosHttp';
@@ -82,7 +82,6 @@ const Home: NextPage = () => {
                   alt={data.name}
                   width={150}
                   height={50}
-                  objectFit="contain"
                 ></Image>
                 <h3 className="text-center text-xs">{data.name}</h3>
               </div>
