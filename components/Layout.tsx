@@ -59,37 +59,33 @@ const Layout = ({ title, children }: Layout) => {
 
       <main className="container mx-auto mb-auto">{children}</main>
 
-      <footer className="footer">
+      <footer className="footer nav-items">
         <Link href="/">
-          <a className="nav-items">
-            <HomeIcon className="nav-icons" />
-          </a>
+          <HomeIcon className="nav-icons" />
         </Link>
-        <Link href="/category">
-          <a className="nav-items">
-            <SquaresIcon className="nav-icons" />
-          </a>
+        <Link href="/category nav-items">
+          <SquaresIcon className="nav-icons" />
         </Link>
         <Link href="/cart">
-          <a className="nav-items relative">
+          <div className="nav-items relative">
             <ShoppingCart className="nav-icons" />
             {cart.badge > 0 ? (
               <div className="absolute top-2 -right-1 w-4 h-4 flex items-center justify-center text-[10px] bg-red-800 text-white font-bold p-1 rounded-full ">
                 {cart.badge}
               </div>
             ) : null}
-          </a>
+          </div>
         </Link>
-        <Link href="/wishlist">
-          <a className="nav-items">
+        <div className="nav-items">
+          <Link href="/wishlist">
             <HeartIcon className="nav-icons" />
-          </a>
-        </Link>
-        <Link href="/profile">
-          <a className="nav-items">
+          </Link>
+        </div>
+        <div className="nav-items">
+          <Link href="/profile">
             <UserProfile className="nav-icons" />
-          </a>
-        </Link>
+          </Link>
+        </div>
       </footer>
     </div>
   );

@@ -77,9 +77,7 @@ const Success = () => {
       </div>
       <div className=" px-6">
         <Link href={'/'}>
-          <a>
-            <PrimaryButton text="Back Home" />
-          </a>
+          <PrimaryButton text="Back Home" />
         </Link>
       </div>
     </>

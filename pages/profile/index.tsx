@@ -10,7 +10,6 @@ import SettingsComp from '../../components/SettingsComp';
 import { Input } from '@material-tailwind/react';
 import Link from 'next/link';
 import customAxios from '../../components/axios/axiosHttp';
-import axios from 'axios';
 import Image from 'next/image';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../../redux/profile/userSlice';
@@ -189,16 +188,14 @@ const ProfilePage = () => {
         {/* 4 Order Grid */}
         <div className="mt-8 grid grid-cols-4">
           <Link href={'/orders'}>
-            <a>
-              <Paper className={'mx-auto'} />
-              <p className="text-center">Orders</p>
-            </a>
+            <Paper className={'mx-auto'} />
+            <p className="text-center">Orders</p>
           </Link>
           <Link href={'/wishlist'}>
-            <a>
+            <div>
               <HeartIcon className={'w-[30px] h-[30px] mx-auto'} />
               <p className="text-center">Wish List</p>
-            </a>
+            </div>
           </Link>
         </div>
         {/* Settings */}

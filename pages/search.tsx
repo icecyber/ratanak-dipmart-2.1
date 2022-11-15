@@ -53,9 +53,7 @@ const SearchPage = () => {
     <div>
       <div className="font-bold text-base py-5 px-5 text-center bg-white shadow flex items-center">
         <Link href="/">
-          <a>
-            <LeftArrow className="mr-4" />
-          </a>
+          <LeftArrow className="mr-4" />
         </Link>
         <Input
           variant="standard"

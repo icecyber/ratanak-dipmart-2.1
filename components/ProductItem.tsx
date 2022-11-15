@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import Router from 'next/router';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { increment } from '../redux/cartSlice';
@@ -73,30 +74,28 @@ const ProductItem = ({ product }: any) => {
         {/* End Condition Wishlist */}
       </div>
 
-      <Link href={`/product/${product.id}`}>
-        <a>
-          <div className="flex justify-center">
-            <Image
-              src={product.primary_image}
-              width={106}
-              height={133}
-              alt={product.name}
-              objectFit="cover"
-            />
+      <div onClick={() => Router.push(`/product/${product.id}`)}>
+        <div className="flex justify-center">
+          <Image
+            src={product.primary_image}
+            width={106}
+            height={133}
+            alt={product.name}
+            objectFit="cover"
+          />
+        </div>
+        <div className="relative p-3">
+          <h1 className="font-bold text-xs pb-3">{product.name}</h1>
+          <div className="flex">
+            <h1 className="font-bold text-xs text-blue-800 mr-1">
+              $ {product.default_price}
+            </h1>
+            <s className="text-[10px] text- text-red-600">
+              {product.discount ? product.discount : ''}
+            </s>
           </div>
-          <div className="relative p-3">
-            <h1 className="font-bold text-xs pb-3">{product.name}</h1>
-            <div className="flex">
-              <h1 className="font-bold text-xs text-blue-800 mr-1">
-                $ {product.default_price}
-              </h1>
-              <s className="text-[10px] text- text-red-600">
-                {product.discount ? product.discount : ''}
-              </s>
-            </div>
-          </div>
-        </a>
-      </Link>
+        </div>
+      </div>
       <button
         className="p-1 bg-white rounded-full shadow-xl absolute right-2 bottom-2"
         onClick={AddToCart}

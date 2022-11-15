@@ -173,12 +173,8 @@ export function LoginScreen({}) {
                     error={wrongUser}
                   />
                 </div>
-                <div className="mt-14 pb-6">
-                  <Link href="/">
-                    <a className="line-through text-sm text-blue-500 ">
-                      Forgot password?
-                    </a>
-                  </Link>
+                <div className="mt-14 pb-6 line-through text-sm text-blue-500">
+                  <Link href="/">Forgot password?</Link>
                 </div>
                 <button className="pb-5 w-full" type="submit">
                   <PrimaryButton text={'Login'}></PrimaryButton>

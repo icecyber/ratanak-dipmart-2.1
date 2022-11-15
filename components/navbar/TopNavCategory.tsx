@@ -19,16 +19,16 @@ const TopNavCategory = ({ title }: layout) => {
         <LeftArrow />
       </button>
       <div>{title}</div>
-      <Link href="/cart">
-        <a className="relative">
+      <div className="relative">
+        <Link href="/cart">
           <ShoppingCart className="nav-icons" />
           {cart.badge > 0 ? (
             <div className="absolute -top-1 -right-1 w-4 h-4 flex items-center justify-center text-[10px] bg-red-800 text-white font-bold p-1 rounded-full ">
               {cart.badge}
             </div>
           ) : null}
-        </a>
-      </Link>
+        </Link>
+      </div>
     </div>
   );
 };
