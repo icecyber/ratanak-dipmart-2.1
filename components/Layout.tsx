@@ -59,12 +59,16 @@ const Layout = ({ title, children }: Layout) => {
 
       <main className="container mx-auto mb-auto">{children}</main>
 
-      <footer className="footer nav-items">
+      <footer className="footer">
         <Link href="/">
-          <HomeIcon className="nav-icons" />
+          <div className="nav-items">
+            <HomeIcon className="nav-icons" />
+          </div>
         </Link>
-        <Link href="/category nav-items">
-          <SquaresIcon className="nav-icons" />
+        <Link href="/category">
+          <div className="nav-items">
+            <SquaresIcon className="nav-icons" />
+          </div>
         </Link>
         <Link href="/cart">
           <div className="nav-items relative">
@@ -76,16 +80,16 @@ const Layout = ({ title, children }: Layout) => {
             ) : null}
           </div>
         </Link>
-        <div className="nav-items">
-          <Link href="/wishlist">
+        <Link href="/wishlist">
+          <div className="nav-items">
             <HeartIcon className="nav-icons" />
-          </Link>
-        </div>
-        <div className="nav-items">
-          <Link href="/profile">
+          </div>
+        </Link>
+        <Link href="/profile">
+          <div className="nav-items">
             <UserProfile className="nav-icons" />
-          </Link>
-        </div>
+          </div>
+        </Link>
       </footer>
     </div>
   );

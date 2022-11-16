@@ -36,9 +36,8 @@ const CategoryPage = () => {
                 src={data.image_id}
                 width={160}
                 height={150}
-                objectFit="contain"
+                className="object-contain rounded-lg"
                 alt="By Brand"
-                className="rounded-lg"
               ></Image>
             </div>
           </Link>

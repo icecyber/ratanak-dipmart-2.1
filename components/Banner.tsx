@@ -29,8 +29,8 @@ export default function Banner({ banner }: any) {
             <Image
               src={data.image}
               alt={data.name}
-              layout="fill"
-              objectFit="cover"
+              fill
+              className="object-cover"
               priority
             ></Image>
           </SwiperSlide>

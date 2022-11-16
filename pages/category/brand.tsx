@@ -57,9 +57,7 @@ const Brand = () => {
                     alt={data.name}
                     width={50}
                     height={25}
-                    objectFit="contain"
-                    className=""
-                    layout="responsive"
+                    className="object-contain"
                   ></Image>
                   <h3 className="text-center text-xs pt-1">{data.name}</h3>
                 </div>

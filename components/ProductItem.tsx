@@ -1,5 +1,4 @@
-import Image from 'next/image';
-import Link from 'next/link';
+import Image from 'next/legacy/image';
 import Router from 'next/router';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -81,7 +80,7 @@ const ProductItem = ({ product }: any) => {
             width={106}
             height={133}
             alt={product.name}
-            objectFit="cover"
+            className="object-cover"
           />
         </div>
         <div className="relative p-3">

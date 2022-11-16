@@ -20,9 +20,7 @@ const EditProfile = () => {
           <Image
             src={userInfo.avatar}
             alt={userInfo.account_id}
-            width="61px"
-            height="61px"
-            className="rounded-full"
+            className="rounded-full w-16 h-16"
           />
           <ChevronRight className={'w-5 h-5'} />
         </div>

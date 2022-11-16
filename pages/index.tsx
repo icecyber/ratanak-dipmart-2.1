@@ -82,18 +82,21 @@ const Home: NextPage = () => {
                   alt={data.name}
                   width={150}
                   height={50}
+                  className="object-contain"
                 ></Image>
                 <h3 className="text-center text-xs">{data.name}</h3>
               </div>
             </Link>
           ))}
           {/* See All Button */}
-          <Link href="/category/brand">
-            <div className="py-1 sm:py-3 md:py-4  md:px-3 w-full  text-center rounded-lg m-auto bg-blue-500 shadow">
-              <ThreeDots className={'mx-auto md:w-[150px] md:h-[50px]'} />
-              <h3 className="text-center text-xs text-white">See all</h3>
-            </div>
-          </Link>
+          <div className="py-1 sm:py-3 md:py-4  md:px-3 w-full  text-center rounded-lg m-auto bg-blue-500 shadow">
+            <Link href="/category/brand">
+              <div>
+                <ThreeDots className={'mx-auto md:w-[150px] md:h-[50px]'} />
+                <h3 className="text-center text-xs text-white">See all</h3>
+              </div>
+            </Link>
+          </div>
         </div>
         {/* Block Item Component Popular*/}
         <div>

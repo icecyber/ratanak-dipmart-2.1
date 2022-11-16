@@ -164,8 +164,7 @@ const ProfilePage = () => {
                 alt={userProfile?.account_id}
                 height={56}
                 width={56}
-                className="rounded-full"
-                objectFit="cover"
+                className="rounded-full object-cover"
               />
             ) : (
               <div className="bg-blue-900 p-1 rounded-full">
@@ -188,8 +187,10 @@ const ProfilePage = () => {
         {/* 4 Order Grid */}
         <div className="mt-8 grid grid-cols-4">
           <Link href={'/orders'}>
-            <Paper className={'mx-auto'} />
-            <p className="text-center">Orders</p>
+            <div>
+              <Paper className={'mx-auto'} />
+              <p className="text-center">Orders</p>
+            </div>
           </Link>
           <Link href={'/wishlist'}>
             <div>
@@ -222,13 +223,13 @@ const ProfilePage = () => {
         )}
 
         {/* Logo DiPMart */}
-        <div className="pt-5 flex flex-col ">
+        <div className="pt-5 grid justify-center">
           <Image
             src="https://www.dipmarts.com/wp-content/themes/dipmarts/assets/images/DiPMarts-Horizontal-Logo.png"
             alt="DiPMart Logo"
             width={142}
             height={54}
-            objectFit="contain"
+            className="object-contain"
             priority
           />
           <p className="pt-2 text-xs text-gray-600 text-center">
@@ -291,9 +292,9 @@ const ProfilePage = () => {
                     </div>
                     <div className="mt-14 pb-6">
                       <Link href="/">
-                        <a className="line-through text-sm text-blue-500 ">
+                        <div className="line-through text-sm text-blue-500 ">
                           Forgot password?
-                        </a>
+                        </div>
                       </Link>
                     </div>
                     <button className="pb-5 w-full" type="submit">

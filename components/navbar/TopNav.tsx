@@ -13,8 +13,8 @@ const TopNav = () => {
           alt="DiPMart Logo"
           width={170}
           height={60}
-          className="navbar-logo"
-          objectFit="contain"
+          className="navbar-logo object-contain"
+          style={{ width: 'auto', height: 'auto' }}
           priority
         />
       </Link>

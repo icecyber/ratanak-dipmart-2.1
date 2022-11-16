@@ -6,18 +6,22 @@ import Layout from '../../components/Layout';
 import ProductItem from '../../components/ProductItem';
 
 const ShopByBrand = () => {
-  const [brandData, setBrandData] = useState([]);
-  const [brandTitle, setBrandTitle] = useState('');
-
   const router = useRouter();
   const route = router.query.brand;
+  const [brandData, setBrandData] = useState([]);
+  const [brandTitle, setBrandTitle] = useState('');
 
   useEffect(() => {
     const FetchData = async () => {
       const res = await customAxios.get(
         `/api/method/dipmarts_app.api.brandproduct?id=${route}`
       );
-      setBrandData(res.data.message.product_list);
+      // Problem with Reload Undefined
+      if (route) {
+        return setBrandData(res.data.message.product_list);
+      } else if (!route) {
+        return setBrandData((prev) => [...prev]);
+      }
       setBrandTitle(res.data.message.id);
     };
     FetchData();
@@ -25,7 +29,7 @@ const ShopByBrand = () => {
 
   return (
     <Layout title={brandTitle}>
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 px-4">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 px-4 mt-4">
         {brandData.map((item, index) => (
           <ProductItem product={item} key={index} />
         ))}

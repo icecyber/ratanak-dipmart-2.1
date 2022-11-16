@@ -208,9 +208,8 @@ const ProductDetail = () => {
               <Image
                 src={productDetail?.primary_image}
                 alt="Product Item"
-                layout="fill"
-                objectFit="contain"
-                className="mt-3 md:w-1/2 md:mx-auto"
+                fill
+                className="mt-3 md:w-1/2 md:mx-auto object-contain"
                 priority
               />
             </div>
@@ -336,7 +335,7 @@ const ProductDetail = () => {
                               alt={feature.name}
                               width={30}
                               height={30}
-                              objectFit="contain"
+                              className="object-contain"
                             />
                             <h1 className="text-center font-bold pt-1">
                               {feature.name}

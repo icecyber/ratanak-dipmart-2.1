@@ -93,8 +93,8 @@ const PaymentPage = () => {
                   src={item.selection_image}
                   height={120}
                   width={100}
-                  alt={item.product.name}
-                  objectFit="cover"
+                  alt={item.product.name ?? ''}
+                  className="object-cover"
                 ></Image>
               </div>
               <div className="flex flex-col justify-between w-full ml-2">

@@ -1,6 +1,6 @@
 import { Progress } from '@material-tailwind/react';
 import Image from 'next/image';
-import useRouter from 'next/router';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AuthForm from '../../components/AuthForm';
@@ -13,7 +13,7 @@ import Pin from '../../components/icons/Pin';
 import ShoppingCart from '../../components/icons/ShoppingCart';
 import Layout from '../../components/Layout';
 import ProductItem from '../../components/ProductItem';
-import { decresment, getBadge } from '../../redux/cartSlice';
+import { decresment } from '../../redux/cartSlice';
 
 export interface CartItem {
   id: string;
@@ -250,10 +250,10 @@ const CartPage = () => {
                 >
                   <Image
                     src={product.selection_image}
-                    alt={product.product.name}
+                    alt={product.product.name ?? ''}
                     width={100}
                     height={100}
-                    objectFit="contain"
+                    className="object-contain"
                   />
                   {/* Info */}
                   <div className="text-sm grid grid-rows-4 gap-2">
@@ -371,9 +371,9 @@ const CartPage = () => {
                       <Image
                         width={94}
                         height={90}
-                        objectFit="cover"
+                        className="object-contain"
                         src={items?.primary_image ?? ''}
-                        alt={items?.name}
+                        alt={items?.name ?? ''}
                       />
                     </div>
                     <div className="flex flex-col justify-between pl-2 pt-2">

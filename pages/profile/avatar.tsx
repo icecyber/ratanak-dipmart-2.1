@@ -72,8 +72,7 @@ const Avatar = () => {
                     width={91}
                     height={91}
                     alt={userInfo.account_id}
-                    className="rounded-full "
-                    objectFit="cover"
+                    className="rounded-full object-cover"
                   />
                   <EditIcon className={'absolute bottom-0 -right-1'} />
                 </div>
