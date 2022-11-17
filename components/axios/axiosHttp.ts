@@ -4,8 +4,6 @@ import { ErrorAlert } from './alert';
 
 export const getHeader = (token = '') => {
   if (typeof window !== 'undefined') {
-    // token =
-    //   Cookies.get('Authorization') ?? 'Token bceaff231358912:0ad1cb16e77f552';
     token =
       localStorage.getItem('Authorization') ??
       'Token 02913ca4b801fcf:85fe94e403dd6ff';

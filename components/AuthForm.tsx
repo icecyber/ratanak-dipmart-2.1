@@ -26,9 +26,31 @@ const AuthForm = ({ closeForm }: AuthFormProps) => {
   const [userProfile, setUserProfile] = useState<userProfile>();
   const [switchPage, setSwitchPage] = useState('login');
   const [isModal, setIsModal] = useState(false);
-  const finalUsername = username.substring(1);
+  const [isVerify, setIsVerify] = useState(false);
   const [wrongUser, setWrongUser] = useState(false);
   const [loginToken, setLoginToken] = useState('');
+  const [phoneNumberSignUp, setPhoneNumberSignUp] = useState('');
+  const [isError, setIsError] = useState(false);
+
+  const handleInputSignUp = (e: any) => {
+    setPhoneNumberSignUp(e.target.value);
+    setIsError(false);
+  };
+
+  const getOTPHandler = async (e: any) => {
+    e.preventDefault();
+    if (phoneNumberSignUp.length > 8) {
+      // const getOTP = await customAxios.post(
+      //   '/api/method/dipmarts_app.api.getotp',
+      //   { phone: `+855${phoneNumberSignUp.substring(1)}` }
+      // );
+      setIsError(false);
+      setIsVerify(true);
+    } else {
+      setIsError(true);
+      return;
+    }
+  };
 
   const LoginHandler = async (e: any) => {
     e.preventDefault();
@@ -117,6 +139,31 @@ const AuthForm = ({ closeForm }: AuthFormProps) => {
     setIsModal(false);
   };
 
+  const OTPInput = (event: any) => {
+    event.preventDefault();
+    const inputs = document.querySelectorAll('#otp > *[id]');
+    for (let i = 0; i < inputs.length; i++) {
+      inputs[i].addEventListener('keydown', function (event) {
+        if (event.key === 'Backspace') {
+          inputs[i].value = '';
+          if (i !== 0) inputs[i - 1].focus();
+        } else {
+          if (i === inputs.length - 1 && inputs[i].value !== '') {
+            return true;
+          } else if (event.keyCode > 47 && event.keyCode < 58) {
+            inputs[i].value = event.key;
+            if (i !== inputs.length - 1) inputs[i + 1].focus();
+            event.preventDefault();
+          } else if (event.keyCode > 64 && event.keyCode < 91) {
+            inputs[i].value = String.fromCharCode(event.keyCode);
+            if (i !== inputs.length - 1) inputs[i + 1].focus();
+            event.preventDefault();
+          }
+        }
+      });
+    }
+  };
+
   return (
     <>
       <div
@@ -174,18 +221,82 @@ const AuthForm = ({ closeForm }: AuthFormProps) => {
                 </button>
               </form>
             </div>
+          ) : isVerify ? (
+            <form className="max-w-sm mx-auto md:max-w-lg" onChange={OTPInput}>
+              <div className="w-full">
+                <div className="bg-white h-64 py-3 rounded text-center">
+                  <h1 className="text-2xl font-bold">Phone Verifcation</h1>
+                  <div className="flex flex-col mt-4">
+                    <span>Enter code sent to your phone</span>
+                  </div>
+                  <div
+                    id="otp"
+                    className="flex flex-row justify-center text-center px-2 mt-5"
+                  >
+                    <input
+                      className="m-2 border h-10 w-10 text-center form-control rounded"
+                      type="text"
+                      id="first"
+                      maxLength={1}
+                    />
+                    <input
+                      className="m-2 border h-10 w-10 text-center form-control rounded"
+                      type="text"
+                      id="second"
+                      maxLength={1}
+                    />
+                    <input
+                      className="m-2 border h-10 w-10 text-center form-control rounded"
+                      type="text"
+                      id="third"
+                      maxLength={1}
+                    />
+                    <input
+                      className="m-2 border h-10 w-10 text-center form-control rounded"
+                      type="text"
+                      id="fourth"
+                      maxLength={1}
+                    />
+                    <input
+                      className="m-2 border h-10 w-10 text-center form-control rounded"
+                      type="text"
+                      id="fifth"
+                      maxLength={1}
+                    />
+                    <input
+                      className="m-2 border h-10 w-10 text-center form-control rounded"
+                      type="text"
+                      id="sixth"
+                      maxLength={1}
+                    />
+                  </div>
+                  <div className="flex justify-center text-center mt-5">
+                    <a className="flex items-center text-blue-700 hover:text-blue-900 cursor-pointer">
+                      <span className="font-bold">Resend OTP</span>
+                      <i className="bx bx-caret-right ml-1" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </form>
           ) : (
-            <form className="px-4 mt-5">
+            <form className="px-4 mt-5" onSubmit={getOTPHandler}>
               <div className="grid grid-rows-3 ">
                 <h1 className="font-bold">Register with Phone Number</h1>
                 <p className="text-xs text-gray-600">
                   Please enter your phone number to continue
                 </p>
-                <Input label="(+855) Phone Number" type={'number'} required />
+                <Input
+                  label="(+855) Phone Number"
+                  type={'number'}
+                  required
+                  onChange={handleInputSignUp}
+                  error={isError}
+                />
               </div>
-              <div className="py-5">
+              <button className="py-5 w-full" type="submit">
                 <PrimaryButton text={'Countinue'}></PrimaryButton>
-              </div>
+              </button>
             </form>
           )}
         </div>

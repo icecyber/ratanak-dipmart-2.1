@@ -16,11 +16,13 @@ const EditProfile = () => {
         onClick={() => router.push('/profile/avatar')}
       >
         <div className="text-sm font-medium">Photo</div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 ">
           <Image
             src={userInfo.avatar}
             alt={userInfo.account_id}
-            className="rounded-full w-16 h-16"
+            width={60}
+            height={60}
+            className="rounded-full object-cover"
           />
           <ChevronRight className={'w-5 h-5'} />
         </div>

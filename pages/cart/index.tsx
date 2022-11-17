@@ -187,7 +187,7 @@ const CartPage = () => {
     if (!userAuth) {
       setIsUserModal(true);
       document.body.style.overflow = 'hidden';
-    } else {
+    } else if (userAuth) {
       router.push('/cart/address');
     }
   };

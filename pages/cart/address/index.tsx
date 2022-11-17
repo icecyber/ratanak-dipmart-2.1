@@ -32,6 +32,10 @@ interface Address {
 const AddressPage = () => {
   const [getAddress, setGetAddress] = useState<Array<Address>>([]);
   useEffect(() => {
+    const user = localStorage.getItem('Authorization');
+    if (!user) {
+      router.push('/address');
+    }
     const FetchAddress = async () => {
       const res = await customAxios.get(
         '/api/method/dipmarts_app.api.getaddress'

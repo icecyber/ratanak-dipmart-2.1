@@ -11,21 +11,19 @@ const ShopByBrand = () => {
   const [brandData, setBrandData] = useState([]);
   const [brandTitle, setBrandTitle] = useState('');
 
+  const FetchData = async () => {
+    const res = await customAxios.get(
+      `/api/method/dipmarts_app.api.brandproduct?id=${route}`
+    );
+    setBrandData(res.data.message.product_list);
+    setBrandTitle(res.data.message.id);
+  };
+
   useEffect(() => {
-    const FetchData = async () => {
-      const res = await customAxios.get(
-        `/api/method/dipmarts_app.api.brandproduct?id=${route}`
-      );
-      // Problem with Reload Undefined
-      if (route) {
-        return setBrandData(res.data.message.product_list);
-      } else if (!route) {
-        return setBrandData((prev) => [...prev]);
-      }
-      setBrandTitle(res.data.message.id);
-    };
-    FetchData();
-  }, []);
+    if (route) {
+      FetchData();
+    }
+  }, [route]);
 
   return (
     <Layout title={brandTitle}>
