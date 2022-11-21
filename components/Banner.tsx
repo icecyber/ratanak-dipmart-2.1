@@ -29,7 +29,7 @@ export default function Banner({ banner }: any) {
             <Image
               src={data.image}
               alt={data.name}
-              fill
+              layout='fill'
               className="object-cover"
               priority
             ></Image>
