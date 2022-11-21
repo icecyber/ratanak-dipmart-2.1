@@ -38,9 +38,11 @@ const ProductItem = ({ product }: any) => {
   return (
     <div className="bg-white relative rounded-lg shadow-md">
       <div className="pt-4 text-center">
-        <div className="text-[10px] bg-red-600 text-white inline-block px-3 py-2 rounded-md absolute -left-2 z-10 shadow">
-          {product.is_top_sell}
-        </div>
+        {product.is_top_sell ? (
+          <div className="text-[10px] bg-red-600 text-white inline-block px-3 py-2 rounded-md absolute -left-2 z-10 shadow">
+            {product.is_top_sell}
+          </div>
+        ) : null}
         {/* Condition Wishlist */}
         {isWishList ? (
           <button
