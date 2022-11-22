@@ -4,6 +4,7 @@ import router from 'next/router';
 import React, { useEffect, useState } from 'react';
 import customAxios from './axios/axiosHttp';
 import PrimaryButton from './button/PrimaryButton';
+import CheckCircle from './icons/CheckCircle';
 
 interface userProfile {
   account_id: string;
@@ -31,6 +32,15 @@ const AuthForm = ({ closeForm }: AuthFormProps) => {
   const [loginToken, setLoginToken] = useState('');
   const [phoneNumberSignUp, setPhoneNumberSignUp] = useState('');
   const [isError, setIsError] = useState(false);
+  const [isOtpVerify, setIsOtpVerify] = useState(false);
+
+  const [otp1, setOpt1] = useState<any>();
+  const [otp2, setOpt2] = useState();
+  const [otp3, setOpt3] = useState();
+  const [otp4, setOpt4] = useState();
+  const [otp5, setOpt5] = useState();
+  const [otp6, setOpt6] = useState();
+  let verifyOTP = otp1 + otp2 + otp3 + otp4 + otp5 + otp6;
 
   const handleInputSignUp = (e: any) => {
     setPhoneNumberSignUp(e.target.value);
@@ -40,10 +50,10 @@ const AuthForm = ({ closeForm }: AuthFormProps) => {
   const getOTPHandler = async (e: any) => {
     e.preventDefault();
     if (phoneNumberSignUp.length > 8) {
-      // const getOTP = await customAxios.post(
-      //   '/api/method/dipmarts_app.api.getotp',
-      //   { phone: `+855${phoneNumberSignUp.substring(1)}` }
-      // );
+      const getOTP = await customAxios.post(
+        '/api/method/dipmarts_app.api.getotp',
+        { phone: `+855${phoneNumberSignUp.substring(1)}` }
+      );
       setIsError(false);
       setIsVerify(true);
     } else {
@@ -55,6 +65,20 @@ const AuthForm = ({ closeForm }: AuthFormProps) => {
   const LoginHandler = async (e: any) => {
     e.preventDefault();
     login();
+  };
+
+  const SignupHandler = async (e: any) => {
+    e.preventDefault();
+    const res = await customAxios.post('/api/method/dipmarts_app.api.signup', {
+      username: `+855${phoneNumberSignUp.substring(1)}`,
+      password: password,
+    });
+    if (res.status === 200) {
+      setIsModal(true);
+    } else {
+      setWrongUser(true);
+      setPassword('');
+    }
   };
 
   const login = async () => {
@@ -139,28 +163,29 @@ const AuthForm = ({ closeForm }: AuthFormProps) => {
     setIsModal(false);
   };
 
-  const OTPInput = (event: any) => {
-    event.preventDefault();
-    const inputs = document.querySelectorAll('#otp > *[id]');
-    for (let i = 0; i < inputs.length; i++) {
-      inputs[i].addEventListener('keydown', function (event) {
-        if (event.key === 'Backspace') {
-          inputs[i].value = '';
-          if (i !== 0) inputs[i - 1].focus();
-        } else {
-          if (i === inputs.length - 1 && inputs[i].value !== '') {
-            return true;
-          } else if (event.keyCode > 47 && event.keyCode < 58) {
-            inputs[i].value = event.key;
-            if (i !== inputs.length - 1) inputs[i + 1].focus();
-            event.preventDefault();
-          } else if (event.keyCode > 64 && event.keyCode < 91) {
-            inputs[i].value = String.fromCharCode(event.keyCode);
-            if (i !== inputs.length - 1) inputs[i + 1].focus();
-            event.preventDefault();
-          }
-        }
-      });
+  const tabChange = function (val: any) {
+    let ele = document.querySelectorAll('input');
+    if (ele[val - 1].value != '') {
+      if (val !== 6) {
+        ele[val].focus();
+      }
+    } else if (ele[val - 1].value == '') {
+      if (val !== 1) {
+        ele[val - 2].focus();
+      }
+    }
+  };
+
+  const OTPInput = async (e: any) => {
+    e.preventDefault();
+    const res = await customAxios.post(
+      '/api/method/dipmarts_app.api.validotp',
+      { phone: `+855${phoneNumberSignUp.substring(1)}`, otp: verifyOTP }
+    );
+    if (res.status === 200) {
+      setIsOtpVerify(true);
+    } else {
+      setIsVerify(false);
     }
   };
 
@@ -222,63 +247,106 @@ const AuthForm = ({ closeForm }: AuthFormProps) => {
               </form>
             </div>
           ) : isVerify ? (
-            <form className="max-w-sm mx-auto md:max-w-lg" onChange={OTPInput}>
-              <div className="w-full">
-                <div className="bg-white h-64 py-3 rounded text-center">
-                  <h1 className="text-2xl font-bold">Phone Verifcation</h1>
-                  <div className="flex flex-col mt-4">
-                    <span>Enter code sent to your phone</span>
-                  </div>
-                  <div
-                    id="otp"
-                    className="flex flex-row justify-center text-center px-2 mt-5"
-                  >
-                    <input
-                      className="m-2 border h-10 w-10 text-center form-control rounded"
-                      type="text"
-                      id="first"
-                      maxLength={1}
-                    />
-                    <input
-                      className="m-2 border h-10 w-10 text-center form-control rounded"
-                      type="text"
-                      id="second"
-                      maxLength={1}
-                    />
-                    <input
-                      className="m-2 border h-10 w-10 text-center form-control rounded"
-                      type="text"
-                      id="third"
-                      maxLength={1}
-                    />
-                    <input
-                      className="m-2 border h-10 w-10 text-center form-control rounded"
-                      type="text"
-                      id="fourth"
-                      maxLength={1}
-                    />
-                    <input
-                      className="m-2 border h-10 w-10 text-center form-control rounded"
-                      type="text"
-                      id="fifth"
-                      maxLength={1}
-                    />
-                    <input
-                      className="m-2 border h-10 w-10 text-center form-control rounded"
-                      type="text"
-                      id="sixth"
-                      maxLength={1}
+            isOtpVerify ? (
+              <div className="px-4 mt-5">
+                <form onSubmit={SignupHandler}>
+                  <div className="my-4">
+                    <Input
+                      label="Password"
+                      onChange={(e) => setPassword(e.target.value)}
+                      type="password"
+                      error={wrongUser}
+                      value={password}
+                      onClick={() => setWrongUser(false)}
                     />
                   </div>
-                  <div className="flex justify-center text-center mt-5">
-                    <a className="flex items-center text-blue-700 hover:text-blue-900 cursor-pointer">
-                      <span className="font-bold">Resend OTP</span>
-                      <i className="bx bx-caret-right ml-1" />
-                    </a>
+                  <ul className="my-4 text-xs">
+                    <li>Must have 5-18 characters</li>
+                    <li>Must have at least 1 number & 1 letter</li>
+                    <li>Must not have spaces</li>
+                  </ul>
+                  <button className="pb-5 w-full" type="submit">
+                    <PrimaryButton text="Countinue"></PrimaryButton>
+                  </button>
+                </form>
+              </div>
+            ) : (
+              <form
+                className="max-w-sm mx-auto md:max-w-lg"
+                onSubmit={OTPInput}
+              >
+                <div className="w-full">
+                  <div className="bg-white h-64 py-3 rounded text-center">
+                    <h1 className="text-2xl font-bold">Phone Verifcation</h1>
+                    <div className="flex flex-col mt-4">
+                      <span>Enter code sent to your phone</span>
+                    </div>
+                    <div
+                      id="otp"
+                      className="flex flex-row justify-center text-center px-2 mt-5"
+                    >
+                      <input
+                        className="m-2 border-b border-black h-10 w-10 text-center form-control rounded"
+                        type="text"
+                        id="first"
+                        maxLength={1}
+                        onKeyUp={() => tabChange(1)}
+                        onChange={(e: any) => setOpt1(e.target.value)}
+                      />
+                      <input
+                        className="m-2 border-b border-black h-10 w-10 text-center form-control rounded"
+                        type="text"
+                        id="second"
+                        maxLength={1}
+                        onKeyUp={() => tabChange(2)}
+                        onChange={(e: any) => setOpt2(e.target.value)}
+                      />
+                      <input
+                        className="m-2 border-b border-black h-10 w-10 text-center form-control rounded"
+                        type="text"
+                        id="third"
+                        maxLength={1}
+                        onKeyUp={() => tabChange(3)}
+                        onChange={(e: any) => setOpt3(e.target.value)}
+                      />
+                      <input
+                        className="m-2 border-b border-black h-10 w-10 text-center form-control rounded"
+                        type="text"
+                        id="fourth"
+                        maxLength={1}
+                        onKeyUp={() => tabChange(4)}
+                        onChange={(e: any) => setOpt4(e.target.value)}
+                      />
+                      <input
+                        className="m-2 border-b border-black h-10 w-10 text-center form-control rounded"
+                        type="text"
+                        id="fifth"
+                        maxLength={1}
+                        onKeyUp={() => tabChange(5)}
+                        onChange={(e: any) => setOpt5(e.target.value)}
+                      />
+                      <input
+                        className="m-2 border-b border-black h-10 w-10 text-center form-control rounded"
+                        type="text"
+                        id="sixth"
+                        maxLength={1}
+                        onKeyUp={() => tabChange(6)}
+                        onChange={(e: any) => setOpt6(e.target.value)}
+                      />
+                    </div>
+                    <div className="flex justify-center text-center mt-5">
+                      <a className="flex items-center text-blue-700 hover:text-blue-900 cursor-pointer">
+                        <span className="font-bold">Resend OTP</span>
+                        <i className="bx bx-caret-right ml-1" />
+                      </a>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </form>
+                <button className="w-full" type="submit">
+                  <PrimaryButton text="Verify"></PrimaryButton>
+                </button>
+              </form>
+            )
           ) : (
             <form className="px-4 mt-5" onSubmit={getOTPHandler}>
               <div className="grid grid-rows-3 ">
