@@ -49,7 +49,7 @@ const AuthForm = ({ closeForm }: AuthFormProps) => {
 
   const getOTPHandler = async (e: any) => {
     e.preventDefault();
-    if (phoneNumberSignUp.length > 8) {
+    if (phoneNumberSignUp.length > 8 && phoneNumberSignUp.length <= 10) {
       const getOTP = await customAxios.post(
         '/api/method/dipmarts_app.api.getotp',
         { phone: `+855${phoneNumberSignUp.substring(1)}` }
@@ -108,7 +108,7 @@ const AuthForm = ({ closeForm }: AuthFormProps) => {
     getUserDetailAfterLogIn(tokenAfterLogin);
     setIsModal(false);
     setWrongUser(false);
-    router.push('/cart/address');
+    router.reload();
   };
 
   const getGuestUser = async () => {
@@ -250,6 +250,7 @@ const AuthForm = ({ closeForm }: AuthFormProps) => {
             isOtpVerify ? (
               <div className="px-4 mt-5">
                 <form onSubmit={SignupHandler}>
+                  <h1 className="font-bold ">Create Passwords</h1>
                   <div className="my-4">
                     <Input
                       label="Password"
@@ -342,7 +343,7 @@ const AuthForm = ({ closeForm }: AuthFormProps) => {
                     </div>
                   </div>
                 </div>
-                <button className="w-full" type="submit">
+                <button className="w-full mx-1" type="submit">
                   <PrimaryButton text="Verify"></PrimaryButton>
                 </button>
               </form>

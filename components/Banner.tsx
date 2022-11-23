@@ -8,7 +8,7 @@ import 'swiper/css/pagination';
 
 // import required modules
 import { Pagination } from 'swiper';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 
 interface Banner {
   id: string;
@@ -29,7 +29,7 @@ export default function Banner({ banner }: any) {
             <Image
               src={data.image}
               alt={data.name}
-              layout='fill'
+              layout="fill"
               className="object-cover"
               priority
             ></Image>

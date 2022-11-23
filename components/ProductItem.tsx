@@ -48,7 +48,7 @@ const ProductItem = ({ product }: any) => {
           <button
             type="button"
             className={
-              'p-1 bg-gray-200 rounded-full shadow-xl absolute right-2 top-2 z-10'
+              'p-1 bg-gray-200 rounded-full shadow-xl absolute right-2 top-2'
             }
             name="wishlistfalse"
             onClick={falseHandler}
@@ -63,7 +63,7 @@ const ProductItem = ({ product }: any) => {
             name="wishlisttrue"
             type="button"
             className={
-              'p-1 bg-gray-200 rounded-full shadow-xl absolute right-2 top-2 z-10'
+              'p-1 bg-gray-200 rounded-full shadow-xl absolute right-2 top-2 '
             }
             onClick={trueHandler}
           >
@@ -82,7 +82,7 @@ const ProductItem = ({ product }: any) => {
             width={106}
             height={133}
             alt={product.name}
-            className="object-cover"
+            className="object-cover w-auto h-auto"
           />
         </div>
         <div className="relative p-3">

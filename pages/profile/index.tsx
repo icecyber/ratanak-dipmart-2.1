@@ -14,6 +14,7 @@ import Image from 'next/image';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../../redux/profile/userSlice';
 import router from 'next/router';
+import AuthForm from '../../components/AuthForm';
 
 export interface UserProfileInterface {
   account_id: string;
@@ -39,25 +40,6 @@ const ProfilePage = () => {
 
   const LoginHandler = async (e: any) => {
     e.preventDefault();
-    // const res: any = await customAxios.post(
-    //   '/api/method/dipmarts_app.api.login',
-    //   {
-    //     username: `+855968888418`,
-    //     password: '@ratanak168',
-    //   }
-    // );
-
-    // if (res?.response?.status === 404) {
-    //   setWrongUser(true);
-    //   return;
-    // }
-    // const api_key = res.data.message.api_key;
-    // const api_secret = res.data.message.api_secret;
-    // const Authorization = `Token ${api_key}:${api_secret}`;
-    // setIsModal(false);
-    // Cookies.set('Authorization', Authorization);
-    // // fetchUserDetail();
-    // console.log(Cookies.get('Authorization'));
     login();
   };
 
@@ -145,6 +127,11 @@ const ProfilePage = () => {
     } else {
       router.push('/profile/editprofile');
     }
+  };
+
+  const closeForm = () => {
+    setIsModal(false);
+    document.body.style.overflow = 'auto';
   };
 
   return (
@@ -242,87 +229,88 @@ const ProfilePage = () => {
       {userProfile?.account_id ? (
         ''
       ) : isModal ? (
-        <>
-          <div
-            className="bg-black bg-transparent bg-opacity-50 w-full absolute top-0 h-[100%]"
-            onClick={() => setIsModal(!true)}
-          ></div>
-          <div>
-            <div className=" bg-white rounded-t-2xl  absolute bottom-0 w-full z-50">
-              <div className="grid grid-cols-2 border-b-2">
-                <div
-                  className={
-                    switchPage === 'signup'
-                      ? 'text-base py-3 text-center border-b-2 border-b-blue-800'
-                      : 'text-base py-3 text-center'
-                  }
-                  onClick={() => setSwitchPage('signup')}
-                >
-                  Sign Up
-                </div>
-                <div
-                  className={
-                    switchPage === 'login'
-                      ? 'text-base py-3 text-center border-b-2 border-b-blue-800'
-                      : 'text-base py-3 text-center'
-                  }
-                  onClick={() => setSwitchPage('login')}
-                >
-                  Login
-                </div>
-              </div>
-              {switchPage === 'login' ? (
-                <div className="px-4 mt-5">
-                  <form onSubmit={LoginHandler}>
-                    <div className="grid grid-rows-2 gap-5">
-                      <Input
-                        label="(+855) Phone Number*"
-                        type={'number'}
-                        onChange={(e) => setUsername(e.target.value)}
-                        error={wrongUser}
-                        onClick={() => setWrongUser(false)}
-                      />
-                      <Input
-                        label="Password"
-                        onChange={(e) => setPassword(e.target.value)}
-                        type="password"
-                        error={wrongUser}
-                        onClick={() => setWrongUser(false)}
-                      />
-                    </div>
-                    <div className="mt-14 pb-6">
-                      <Link href="/">
-                        <div className="line-through text-sm text-blue-500 ">
-                          Forgot password?
-                        </div>
-                      </Link>
-                    </div>
-                    <button className="pb-5 w-full" type="submit">
-                      <PrimaryButton text={'Login'}></PrimaryButton>
-                    </button>
-                  </form>
-                </div>
-              ) : (
-                <form className="px-4 mt-5">
-                  <div className="grid grid-rows-3 ">
-                    <h1 className="font-bold">Register with Phone Number</h1>
-                    <p className="text-xs text-gray-600">
-                      Please enter your phone number to continue
-                    </p>
-                    <Input
-                      label="(+855) Phone Number"
-                      type={'number'}
-                      required
-                    />
-                  </div>
-                  <div className="py-5">
-                    <PrimaryButton text={'Countinue'}></PrimaryButton>
-                  </div>
-                </form>
-              )}
-            </div>
-          </div>
-        </>
+        // <>
+        //   <div
+        //     className="bg-black bg-transparent bg-opacity-50 w-full absolute top-0 h-[100%]"
+        //     onClick={() => setIsModal(!true)}
+        //   ></div>
+        //   <div>
+        //     <div className=" bg-white rounded-t-2xl  absolute bottom-0 w-full z-50">
+        //       <div className="grid grid-cols-2 border-b-2">
+        //         <div
+        //           className={
+        //             switchPage === 'signup'
+        //               ? 'text-base py-3 text-center border-b-2 border-b-blue-800'
+        //               : 'text-base py-3 text-center'
+        //           }
+        //           onClick={() => setSwitchPage('signup')}
+        //         >
+        //           Sign Up
+        //         </div>
+        //         <div
+        //           className={
+        //             switchPage === 'login'
+        //               ? 'text-base py-3 text-center border-b-2 border-b-blue-800'
+        //               : 'text-base py-3 text-center'
+        //           }
+        //           onClick={() => setSwitchPage('login')}
+        //         >
+        //           Login
+        //         </div>
+        //       </div>
+        //       {switchPage === 'login' ? (
+        //         <div className="px-4 mt-5">
+        //           <form onSubmit={LoginHandler}>
+        //             <div className="grid grid-rows-2 gap-5">
+        //               <Input
+        //                 label="(+855) Phone Number*"
+        //                 type={'number'}
+        //                 onChange={(e) => setUsername(e.target.value)}
+        //                 error={wrongUser}
+        //                 onClick={() => setWrongUser(false)}
+        //               />
+        //               <Input
+        //                 label="Password"
+        //                 onChange={(e) => setPassword(e.target.value)}
+        //                 type="password"
+        //                 error={wrongUser}
+        //                 onClick={() => setWrongUser(false)}
+        //               />
+        //             </div>
+        //             <div className="mt-14 pb-6">
+        //               <Link href="/">
+        //                 <div className="line-through text-sm text-blue-500 ">
+        //                   Forgot password?
+        //                 </div>
+        //               </Link>
+        //             </div>
+        //             <button className="pb-5 w-full" type="submit">
+        //               <PrimaryButton text={'Login'}></PrimaryButton>
+        //             </button>
+        //           </form>
+        //         </div>
+        //       ) : (
+        //         <form className="px-4 mt-5">
+        //           <div className="grid grid-rows-3 ">
+        //             <h1 className="font-bold">Register with Phone Number</h1>
+        //             <p className="text-xs text-gray-600">
+        //               Please enter your phone number to continue
+        //             </p>
+        //             <Input
+        //               label="(+855) Phone Number"
+        //               type={'number'}
+        //               required
+        //             />
+        //           </div>
+        //           <div className="py-5">
+        //             <PrimaryButton text={'Countinue'}></PrimaryButton>
+        //           </div>
+        //         </form>
+        //       )}
+        //     </div>
+        //   </div>
+        // </>
+        <AuthForm closeForm={closeForm} />
       ) : null}
     </Layout>
   );
