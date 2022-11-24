@@ -13,6 +13,7 @@ import Image from 'next/image';
 import AuthForm from '../../components/AuthForm';
 import { useDispatch } from 'react-redux';
 import { increment } from '../../redux/cartSlice';
+import Layout from '../../components/Layout';
 
 interface ProductDetail {
   id: string;
@@ -77,7 +78,7 @@ const ProductDetail = () => {
   const route = router.query.id;
   const [productDetail, setProductDetail] = useState<ProductDetail>();
   const [isWishList, setIsWishlist] = useState(false);
-  const [open, setOpen] = useState(0);
+  const [open, setOpen] = useState(1);
   const [CapId, setCapId] = useState('');
   const [colorId, setColorID] = useState('');
   const [userProfile, setUserProfile] = useState<Username>();
@@ -200,8 +201,7 @@ const ProductDetail = () => {
 
   if (router.isReady === true) {
     return (
-      <>
-        <TopNavCategory title={`${router.query.id}`} />
+      <Layout title={`${router.query.id}`}>
         {productDetail && (
           <>
             <div className="mt-4 bg-white w-80 h-60 relative mx-auto">
@@ -317,8 +317,11 @@ const ProductDetail = () => {
                     </div>
                   </AccordionBody>
                 </div>
+              </Accordion>
+
+              <Accordion open={open === 2} icon={<Icon id={1} open={open} />}>
                 {/* Feature */}
-                <AccordionHeader onClick={() => handleOpen(1)}>
+                <AccordionHeader onClick={() => handleOpen(2)}>
                   Feature
                 </AccordionHeader>
                 <div>
@@ -328,14 +331,14 @@ const ProductDetail = () => {
                         (feature: ProductFeature) => (
                           <div
                             key={feature.id}
-                            className="bg-gray-300 rounded-lg w-[70%] py-3 mx-auto flex flex-col"
+                            className="bg-gray-300 rounded-lg w-full py-3 mx-auto flex flex-col"
                           >
                             <Image
                               src={feature.image_path}
                               alt={feature.name}
                               width={30}
                               height={30}
-                              className="object-contain"
+                              className="object-contain mx-auto"
                             />
                             <h1 className="text-center font-bold pt-1">
                               {feature.name}
@@ -386,7 +389,7 @@ const ProductDetail = () => {
           </>
         )}
         {isUserModal ? <AuthForm closeForm={closePopUp} /> : null}
-      </>
+      </Layout>
     );
   } else {
     return <div>Loading</div>;
