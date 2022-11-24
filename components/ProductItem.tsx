@@ -35,6 +35,11 @@ const ProductItem = ({ product }: any) => {
     customAxios.post('/api/method/dipmarts_app.api.addtocart', AddCartBody);
   };
 
+  const dollaCurrency = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  });
+
   return (
     <div className="bg-white relative rounded-lg shadow-md">
       <div className="pt-4 text-center">
@@ -89,10 +94,10 @@ const ProductItem = ({ product }: any) => {
           <h1 className="font-bold text-xs pb-3">{product.name}</h1>
           <div className="flex">
             <h1 className="font-bold text-xs text-blue-800 mr-1">
-              $ {product.default_price}
+              {dollaCurrency.format(product.default_price)}
             </h1>
             <s className="text-[10px] text- text-red-600">
-              {product.discount ? product.discount : ''}
+              {product.discount ? dollaCurrency.format(product.discount) : ''}
             </s>
           </div>
         </div>
