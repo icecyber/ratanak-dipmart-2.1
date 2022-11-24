@@ -57,7 +57,7 @@ const Brand = () => {
                     alt={data.name}
                     width={50}
                     height={25}
-                    className="object-contain"
+                    className="object-contain mx-auto"
                   ></Image>
                   <h3 className="text-center text-xs pt-1">{data.name}</h3>
                 </div>

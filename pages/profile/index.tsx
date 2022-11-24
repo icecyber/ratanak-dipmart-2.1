@@ -194,8 +194,12 @@ const ProfilePage = () => {
           <SettingsComp subSetting="English">Language</SettingsComp>
         </div>
         <div className="px-5 bg-[#EAEAEA] mt-4">
-          <SettingsComp>Privacy Policy</SettingsComp>
-          <SettingsComp>Legal Information</SettingsComp>
+          <div onClick={() => router.push('/profile/privacy-policy')}>
+            <SettingsComp>Privacy Policy</SettingsComp>
+          </div>
+          <div onClick={() => router.push('/profile/term-and-conditions')}>
+            <SettingsComp>Legal Information</SettingsComp>
+          </div>
           <SettingsComp subSetting="1.0">Version</SettingsComp>
         </div>
         {/* Login Button */}
