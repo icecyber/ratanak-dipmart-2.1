@@ -9,6 +9,7 @@ import Plus from './icons/Plus';
 
 const ProductItem = ({ product }: any) => {
   const [isWishList, setIsWishList] = useState(product.in_wishlist);
+  const [isProcess, setIsProcess] = useState(false);
   const data = { product_id: product.id };
   const dispatch = useDispatch();
 
@@ -30,9 +31,16 @@ const ProductItem = ({ product }: any) => {
     setIsWishList(true);
   };
 
-  const AddToCart = () => {
-    dispatch(increment(1));
-    customAxios.post('/api/method/dipmarts_app.api.addtocart', AddCartBody);
+  const AddToCart = async () => {
+    setIsProcess(true);
+    const res = await customAxios.post(
+      '/api/method/dipmarts_app.api.addtocart',
+      AddCartBody
+    );
+    if (res.status === 200) {
+      setIsProcess(false);
+      dispatch(increment(1));
+    }
   };
 
   const dollaCurrency = new Intl.NumberFormat('en-US', {
@@ -105,7 +113,8 @@ const ProductItem = ({ product }: any) => {
       <button
         className="p-1 bg-white rounded-full shadow-xl absolute right-2 bottom-2"
         onClick={AddToCart}
-        name="addWishList"
+        name="addToCart"
+        disabled={isProcess}
       >
         <Plus className={'w-[20px] h-[20px] text-blue-800 font-bold'} />
       </button>
