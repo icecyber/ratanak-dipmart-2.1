@@ -31,6 +31,10 @@ interface Address {
 
 const AddressPage = () => {
   const [getAddress, setGetAddress] = useState<Array<Address>>([]);
+  const [selectedAddress, setSelectAddress] = useState('');
+  const [borderSelected, setBorderSelected] = useState(
+    'border-2 border-blue-900'
+  );
   useEffect(() => {
     const user = localStorage.getItem('Authorization');
     if (!user) {
@@ -44,6 +48,18 @@ const AddressPage = () => {
     };
     FetchAddress();
   }, []);
+
+  async function selectAddressHandler(id: string) {
+    setSelectAddress(id);
+    const res = await customAxios.post(
+      'api/method/dipmarts_app.api.updateaddress',
+      {
+        id,
+        is_default: true,
+      }
+    );
+    console.log(res.data);
+  }
 
   return (
     <div>
@@ -87,9 +103,10 @@ const AddressPage = () => {
           {getAddress?.map((item) => (
             <div
               className={`p-6 bg-white shadow-md rounded-lg mt-4 ${
-                item.is_default ? 'border-2 border-blue-900' : null
+                item.id === selectedAddress ? borderSelected : null
               }`}
               key={item.id}
+              onClick={() => selectAddressHandler(item.id)}
             >
               <div className="flex justify-between items-center">
                 <div className="flex gap-4">

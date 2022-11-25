@@ -13,8 +13,16 @@ import { CartItem } from '..';
 import Link from 'next/link';
 import PrimaryButton from '../../../components/button/PrimaryButton';
 
+interface ItemList {
+  product_id: string;
+  selection: Selection[];
+  qty: number;
+  noted: string;
+}
+
 const PaymentPage = () => {
   const [cartList, setCartList] = useState<Array<CartItem>>([]);
+  const [itemList, setItemList] = useState<Array<ItemList>>([]);
   let total = 0;
 
   cartList.map((item) => (total += item.final_price));
@@ -27,7 +35,37 @@ const PaymentPage = () => {
       setCartList(res.data.message);
     };
     GetCart();
+
+    console.log(cartList);
+    // cartList?.map((item) =>
+    //   setItemList([
+    //     {
+    //       product_id: item.product.id,
+    //       selection: item.selection,
+    //       qty: item.qty,
+    //     },
+    //   ])
+    // );
   }, []);
+
+  async function placeOrderHandler() {
+    const orderBody = {
+      user_address: '4rd floor, north gateway,..',
+      noted: 'note1',
+      item_list: [
+        {
+          product_id: 'IP-12',
+          selection: [],
+          qty: 1,
+          noted: '1',
+        },
+      ],
+    };
+    const res = await customAxios.post(
+      '/api/method/dipmarts_app.api.placeorder',
+      orderBody
+    );
+  }
 
   return (
     <div>
@@ -135,9 +173,9 @@ const PaymentPage = () => {
           </div>
           {/* Button Place Order */}
           <div className="pb-4">
-            <Link href={'/'}>
+            <div onClick={placeOrderHandler}>
               <PrimaryButton text="Place Order" />
-            </Link>
+            </div>
           </div>
         </div>
       </div>
