@@ -6,6 +6,7 @@ import { increment } from '../redux/cartSlice';
 import customAxios from './axios/axiosHttp';
 import HeartIcon from './icons/HeartIcon';
 import Plus from './icons/Plus';
+import { dollaCurrency } from '../util/dollaCurrencyFormat';
 
 const ProductItem = ({ product }: any) => {
   const [isWishList, setIsWishList] = useState(product.in_wishlist);
@@ -42,11 +43,6 @@ const ProductItem = ({ product }: any) => {
       dispatch(increment(1));
     }
   };
-
-  const dollaCurrency = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  });
 
   return (
     <div className="bg-white relative rounded-lg shadow-md">

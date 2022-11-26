@@ -43,10 +43,12 @@ const Home: NextPage = () => {
       const res = await customAxios.get(
         '/api/method/dipmarts_app.api.homepage'
       );
-      setBanner(res.data.message.advertisement);
-      setPopularProduct(res.data.message.popular_products);
-      setSecondaryBanner(res.data.message.secondary_banner);
-      setBrand(res.data.message.shop_by_brands);
+      if (res.data.message) {
+        setBanner(res.data.message.advertisement);
+        setPopularProduct(res.data.message.popular_products);
+        setSecondaryBanner(res.data.message.secondary_banner);
+        setBrand(res.data.message.shop_by_brands);
+      }
     };
 
     FetchData();

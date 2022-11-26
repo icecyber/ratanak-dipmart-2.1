@@ -6,7 +6,7 @@ export const getHeader = (token = '') => {
   if (typeof window !== 'undefined') {
     token =
       localStorage.getItem('Authorization') ??
-      'Token 02913ca4b801fcf:85fe94e403dd6ff';
+      'Token 5e5f20254531d63:dffd3e79a5de1f4';
   }
 
   return {

@@ -58,7 +58,6 @@ const AddressPage = () => {
         is_default: true,
       }
     );
-    console.log(res.data);
   }
 
   return (
