@@ -14,6 +14,7 @@ import ShoppingCart from '../../components/icons/ShoppingCart';
 import Layout from '../../components/Layout';
 import ProductItem from '../../components/ProductItem';
 import { decresment } from '../../redux/cartSlice';
+import { dollaCurrency } from '../../util/dollaCurrencyFormat';
 
 export interface CartItem {
   id: string;
@@ -295,7 +296,7 @@ const CartPage = () => {
                         </div>
                       ) : null
                     )}
-                    <div>$ {product.final_price}</div>
+                    <div>{dollaCurrency.format(product.final_price)}</div>
                   </div>
                   {/* End Into */}
                   <div className="flex flex-col justify-between items-end">
@@ -346,7 +347,9 @@ const CartPage = () => {
             <div className="grid grid-cols-3 w-full sticky bottom-14 bg-white px-2 py-3 z-50">
               <div>
                 <h3 className="text-sm text-gray-500">Total</h3>
-                <h1 className="text-blue-900 font-bold">${total}</h1>
+                <h1 className="text-blue-900 font-bold">
+                  {dollaCurrency.format(total)}
+                </h1>
               </div>
               <button
                 className="col-span-2"
@@ -404,7 +407,9 @@ const CartPage = () => {
                           </div>
                         </div>
                       </div>
-                      <h1 className=" text-base">$ {items?.default_price}</h1>
+                      <h1 className=" text-base">
+                        {dollaCurrency.format(items?.default_price ?? 0)}
+                      </h1>
                     </div>
                   </div>
                   <button

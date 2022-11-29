@@ -12,15 +12,38 @@ import Image from 'next/image';
 import { CartItem } from '..';
 import Link from 'next/link';
 import PrimaryButton from '../../../components/button/PrimaryButton';
+import { dollaCurrency } from '../../../util/dollaCurrencyFormat';
+
+interface Props {
+  id: string;
+  final_price: number;
+  selection_image: string;
+  qty: number;
+  vat: number;
+  product: Product;
+  selection: Selection[];
+  noted: string;
+}
+interface Selection {
+  product_varraint_value: Product_varraint_value;
+}
+interface Product_varraint_value {
+  id: string;
+}
+interface Product {
+  id: string;
+  name: string;
+  default_price: number;
+  delivery_fee: number;
+}
 
 interface ItemList {
   product_id: string;
   selection: Selection[];
   qty: number;
-  noted: string;
 }
 
-const PaymentPage = () => {
+const PaymentPage: React.FC<Props> = () => {
   const [cartList, setCartList] = useState<Array<CartItem>>([]);
   const [itemList, setItemList] = useState<Array<ItemList>>([]);
   let total = 0;
@@ -35,20 +58,19 @@ const PaymentPage = () => {
       setCartList(res.data.message);
     };
     GetCart();
-
-    console.log(cartList);
-    // cartList?.map((item) =>
-    //   setItemList([
-    //     {
-    //       product_id: item.product.id,
-    //       selection: item.selection,
-    //       qty: item.qty,
-    //     },
-    //   ])
-    // );
   }, []);
 
   async function placeOrderHandler() {
+    cartList?.map((item) =>
+      setItemList([
+        {
+          product_id: item.product.id ?? '',
+          selection: item.selection,
+          qty: item.qty,
+        },
+      ])
+    );
+
     const orderBody = {
       user_address: '4rd floor, north gateway,..',
       noted: 'note1',
@@ -144,7 +166,9 @@ const PaymentPage = () => {
                   <span className="border-2 rounded-lg p-1 text-xs">
                     x{item.qty}
                   </span>
-                  <h1 className="font-bold">${item.final_price}</h1>
+                  <h1 className="font-bold">
+                    {dollaCurrency.format(item.final_price)}
+                  </h1>
                 </div>
               </div>
             </div>
@@ -155,7 +179,9 @@ const PaymentPage = () => {
             <div className="grid grid-rows-1 gap-2 border-b-2 pb-2">
               <div className="flex justify-between items-center">
                 <h1>Subtotal</h1>
-                <h1 className="text-gray-800 font-bold">${total}</h1>
+                <h1 className="text-gray-800 font-bold">
+                  {dollaCurrency.format(total)}
+                </h1>
               </div>
               <div className="flex justify-between items-center">
                 <h1>Delivery fee</h1>
@@ -168,7 +194,9 @@ const PaymentPage = () => {
             </div>
             <div className="flex justify-between py-4 items-center">
               <h1 className="text-blue-900">Total Payable</h1>
-              <h1 className="font-bold text-blue-900 text-2xl">${total}</h1>
+              <h1 className="font-bold text-blue-900 text-2xl">
+                {dollaCurrency.format(total)}
+              </h1>
             </div>
           </div>
           {/* Button Place Order */}
