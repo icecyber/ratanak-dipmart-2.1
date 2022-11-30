@@ -96,7 +96,6 @@ const AuthForm = ({ closeForm }: AuthFormProps) => {
         baseURL,
       }
     );
-    console.log(loginRes);
 
     if (loginRes?.status === 404) {
       setWrongUser(true);
@@ -122,6 +121,9 @@ const AuthForm = ({ closeForm }: AuthFormProps) => {
   const setToLocalStorageAfterLogin = (token: string) => {
     localStorage.setItem('Authorization', token);
   };
+  const setAccountIdToLocalStorage = (accoundid: string) => {
+    localStorage.setItem('AccountID', accoundid);
+  };
 
   const getUserDetailAfterLogIn = async (token: string) => {
     const headers = { Authorization: token };
@@ -130,6 +132,7 @@ const AuthForm = ({ closeForm }: AuthFormProps) => {
       { headers }
     );
     setUserProfile(res?.data?.message);
+    setAccountIdToLocalStorage(res?.data?.message.account_id);
   };
 
   useEffect(() => {

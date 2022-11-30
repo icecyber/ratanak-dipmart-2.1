@@ -77,6 +77,7 @@ const ProfilePage = () => {
       await customAxios.get('/api/method/dipmarts_app.api.generate_guest')
     )?.data;
     const token = `Token ${res.message.api_key}:${res.message.api_secret}`;
+
     setLoginToken(token);
   };
 
@@ -92,6 +93,8 @@ const ProfilePage = () => {
     );
     setUserProfile(res?.data?.message);
   };
+
+  console.log(userProfile);
 
   const fetchUserDetail = async () => {
     const res = await customAxios.get(
