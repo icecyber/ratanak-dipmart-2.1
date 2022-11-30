@@ -114,6 +114,7 @@ const ProfilePage = () => {
       gender: '',
       phone_number: '',
     });
+    router.reload();
   };
 
   useEffect(() => {
@@ -173,7 +174,7 @@ const ProfilePage = () => {
         </div>
         {/* 4 Order Grid */}
         <div className="mt-8 grid grid-cols-4">
-          <Link href={'/orders'}>
+          <Link href={'/profile/myorder'}>
             <div>
               <Paper className={'mx-auto'} />
               <p className="text-center">Orders</p>

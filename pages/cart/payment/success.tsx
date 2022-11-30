@@ -75,9 +75,12 @@ const Success = () => {
           by the app of your order progress.
         </p>
       </div>
-      <div className=" px-6">
+      <div className=" px-6 grid grid-cols-2 gap-4">
         <Link href={'/'}>
           <PrimaryButton text="Back Home" />
+        </Link>
+        <Link href={'/'}>
+          <PrimaryButton text="See your order" />
         </Link>
       </div>
     </>

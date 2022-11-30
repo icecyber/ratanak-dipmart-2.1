@@ -4,6 +4,7 @@ import customAxios from '../../components/axios/axiosHttp';
 import Close from '../../components/icons/Close';
 import EmptyWishList from '../../components/icons/EmptyWishList';
 import Layout from '../../components/Layout';
+import { dollaCurrency } from '../../util/dollaCurrencyFormat';
 
 interface Item {
   id: string;
@@ -58,7 +59,9 @@ const WishListPage = () => {
               />
               <div>
                 <h1 className="font-bold">{data.name}</h1>
-                <h1 className="text-gray-500">$ {data.default_price}</h1>
+                <h1 className="text-gray-500">
+                  {dollaCurrency.format(data.default_price)}
+                </h1>
               </div>
             </div>
 

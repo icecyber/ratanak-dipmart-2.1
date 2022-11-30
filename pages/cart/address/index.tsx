@@ -112,7 +112,7 @@ const AddressPage = () => {
                   <Brif />
                   <h1 className="font-bold">{item.label}</h1>
                   {item.is_default ? (
-                    <p className="bg-gray-400 text-white px-2 rounded-lg text-xs flex items-center justify-center">
+                    <p className="bg-blue-900 text-white px-2 rounded-lg text-xs flex items-center justify-center">
                       Default
                     </p>
                   ) : (

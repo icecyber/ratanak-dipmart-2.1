@@ -28,12 +28,14 @@ const Layout = ({ title, children }: Layout) => {
       const res = await customAxios.get(
         '/api/method/dipmarts_app.api.cartlist'
       );
-      const qty = res.data.message.reduce(
-        (prev: any, current: any) => prev + current.qty,
-        0
-      );
 
-      dispatch(initialBadge(qty));
+      if (res.data.message) {
+        const qty = res.data.message.reduce(
+          (prev: any, current: any) => prev + current.qty,
+          0
+        );
+        dispatch(initialBadge(qty));
+      }
     };
     fetchBadge();
   }, []);

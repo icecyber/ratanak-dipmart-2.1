@@ -13,6 +13,7 @@ import { CartItem } from '..';
 import Link from 'next/link';
 import PrimaryButton from '../../../components/button/PrimaryButton';
 import { dollaCurrency } from '../../../util/dollaCurrencyFormat';
+import Swal from 'sweetalert2';
 
 interface Props {
   id: string;
@@ -61,32 +62,28 @@ const PaymentPage: React.FC<Props> = () => {
   }, []);
 
   async function placeOrderHandler() {
-    cartList?.map((item) =>
-      setItemList([
-        {
-          product_id: item.product.id ?? '',
-          selection: item.selection,
-          qty: item.qty,
-        },
-      ])
-    );
+    const data = cartList.map((item) => {
+      return {
+        product_id: item.product.id ?? '',
+        selection: [item.selection[0].id, item.selection[1].id],
+        qty: item.qty,
+      };
+    });
 
     const orderBody = {
       user_address: '4rd floor, north gateway,..',
       noted: 'note1',
-      item_list: [
-        {
-          product_id: 'IP-12',
-          selection: [],
-          qty: 1,
-          noted: '1',
-        },
-      ],
+      item_list: data,
     };
     const res = await customAxios.post(
       '/api/method/dipmarts_app.api.placeorder',
       orderBody
     );
+    if (res.status === 200) {
+      setTimeout(() => {
+        router.push('/cart/payment/success');
+      }, 2000);
+    }
   }
 
   return (

@@ -28,17 +28,16 @@ const CategoryPage = () => {
       <div className="grid grid-cols-2 mt-4">
         {category.map((data) => (
           <Link href={`/category/${data.id}`} key={data.id}>
-            <div className="relative text-center">
+            <div className="relative text-center w-[160px] h-[150px] md:w-[320px] md:h-[300px]">
               <h1 className="text-lg font-bold absolute left-4 z-10 bottom-4 text-white ">
                 {data.name}
               </h1>
               <Image
                 src={data.image_id}
-                width={160}
-                height={150}
+                fill
                 className="object-contain rounded-lg"
                 alt="By Brand"
-              ></Image>
+              />
             </div>
           </Link>
         ))}

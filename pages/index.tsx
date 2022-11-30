@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Image from 'next/legacy/image';
 import Link from 'next/link';
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import customAxios from '../components/axios/axiosHttp';
 import Banner from '../components/Banner';
 import ThreeDots from '../components/icons/ThreeDots';
