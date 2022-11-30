@@ -3,6 +3,7 @@ import Image from 'next/dist/client/image';
 import { useRouter } from 'next/dist/client/router';
 import React, { useEffect, useState } from 'react';
 import customAxios from '../../../components/axios/axiosHttp';
+import PrimaryButton from '../../../components/button/PrimaryButton';
 
 import Layout from '../../../components/Layout';
 import { dollaCurrency } from '../../../util/dollaCurrencyFormat';
@@ -167,6 +168,17 @@ const OrderDetail = () => {
                 )
               : null}
           </div>
+        </div>
+        <p className="my-2">
+          <span className="text-red-800">*</span>
+          <span className="text-gray-600">
+            {' '}
+            In case, you want to cancel the order. Please contact this number:
+          </span>{' '}
+          <span className="font-bold text-blue-800">070 123 456</span>
+        </p>
+        <div className="my-4">
+          <PrimaryButton text="Tracking" />
         </div>
       </div>
     </Layout>

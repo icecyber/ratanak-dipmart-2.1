@@ -69,7 +69,9 @@ const Myorder = () => {
             <p className="text-xs text-gray-500">
               Your order will show up here once you make a purchase .
             </p>
-            <PrimaryButton text="Start Shopping" />
+            <div onClick={() => router.push('/')}>
+              <PrimaryButton text="Start Shopping" />
+            </div>
           </div>
         )}
       </div>
