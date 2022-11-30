@@ -177,7 +177,12 @@ const OrderDetail = () => {
           </span>{' '}
           <span className="font-bold text-blue-800">070 123 456</span>
         </p>
-        <div className="my-4">
+        <div
+          className="my-4"
+          onClick={() =>
+            router.push(`/profile/orderdetail/delivery/${orderDetailRoute}`)
+          }
+        >
           <PrimaryButton text="Tracking" />
         </div>
       </div>
