@@ -113,7 +113,7 @@ const OrderDetail = () => {
                     <div key={selection.id}>
                       {selection.name === 'Capacity' ? (
                         <h3 className="text-sm text-gray-600">
-                          {selection.name}:
+                          {selection.name}: &nbsp;
                           {selection.product_varraint_value.value}
                         </h3>
                       ) : null}

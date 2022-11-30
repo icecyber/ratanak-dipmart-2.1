@@ -28,8 +28,8 @@ const Success = () => {
           <path
             d="M58.4722 61.7936L67.2037 70.3353L84.6666 53.252"
             stroke="white"
-            stroke-width="6"
-            stroke-linecap="round"
+            strokeWidth="6"
+            strokeLinecap="round"
             stroke-linejoin="round"
           />
           <defs>
